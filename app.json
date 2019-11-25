@@ -1,6 +1,6 @@
-{
+{ 
   "expo": {
-    "name": "EV Calculator",
+    "name": "EV Calculator - Speed & Range",
     "slug": "ev-calculator",
     "privacy": "public",
     "sdkVersion": "35.0.0",
@@ -24,7 +24,15 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "bundleIdentifier": "ev.calculator.mobileapp",
+      "buildNumber": "25092019",
+      "supportsTablet": false,
+      "isTabletOnly": false
+    },
+    "android": {
+      "package": "ev.calculator.mobileapp",
+      "versionCode": 25092019,
+      "permissions": []
     }
   }
 }

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, StyleSheet, Dimensions } from 'react-native';
+import { Text, View, StyleSheet } from 'react-native';
 import Input from '../components/Input';
 import Dropdown from '../components/Dropdown';
 import InputContainer from '../components/InputContainer';
@@ -15,18 +15,41 @@ export default class ESK8Range extends Component {
     result: null
   };
 
+  updateUserSettings = () => {
+    const userSettings = {
+      units: this.props.units
+    };
+    return userSettings;
+  };
+
   calculate = () => {
     const {cellCapacity, cellVoltage, whPerMile, cellsInSeries, cellsInParallell} = this.state;
 
     let resultMiles = cellsInParallell*cellCapacity*cellVoltage*cellsInSeries /whPerMile;
-    let resultKm = (resultMiles * 1.60934).toFixed(2);
+    let resultKm = resultMiles * 1.60934;
 
-    if(!isNaN(resultKm)){
-      this.setState({ result: resultKm + ' km' });
+    units = this.updateUserSettings().units;
+
+    console.log(units);
+    
+    if(units === 'metric'){
+      if(!isNaN(resultKm)){
+        this.setState({ result: 'Estimated range: ' + resultKm.toFixed(2) + ' km' });
+      }
+      else{
+        this.setState({ result: 'Please fill out all fields' });
+      }
     }
     else{
-      this.setState({ result: 'Please fill out all fields' });
+      if(!isNaN(resultKm)){
+        this.setState({ result: 'Estimated range: ' + resultMiles.toFixed(2) + ' miles' });
+      }
+      else{
+        this.setState({ result: 'Please fill out all fields' });
+      }
     }
+
+
   }
 
   onValueChange = (value, type) => {
@@ -95,7 +118,7 @@ export default class ESK8Range extends Component {
             },
             {
               label: 'Dual Hub Motor (35Wh/mi)',
-              value: '30',
+              value: '35',
           }
         ]}
         />
@@ -125,8 +148,8 @@ const styles = StyleSheet.create({
     padding: 30
   },
   result: {
-    padding: 30,
-    fontSize: 22,
+    padding: 50,
+    fontSize: 18,
     textAlign: 'center'
   }
 });

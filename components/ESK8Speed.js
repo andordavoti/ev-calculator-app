@@ -20,20 +20,41 @@ export default class ESK8Speed extends Component {
     result: null
   };
 
-
+  updateUserSettings = () => {
+    const userSettings = {
+      units: this.props.units
+    };
+    return userSettings;
+  };
 
   calculate = () => {
     const {motorPulleyTeeth, wheelPulleyTeeth, motorKVRating, wheelSize, cellsInSeries, nominalCellVoltage} = this.state;
 
     let resultMph = nominalCellVoltage*cellsInSeries*motorKVRating*Math.PI*(motorPulleyTeeth/wheelPulleyTeeth)*wheelSize*0.00003728226;
-    let resultKph = (resultMph * 1.60934).toFixed(2);
+    let resultKph = resultMph * 1.60934;
 
-    if(!isNaN(resultKph)){
-      this.setState({ result: 'Estimated top speed: ' + resultKph + ' km/h' });
+    units = this.updateUserSettings().units;
+
+    console.log(units);
+
+    if(units === 'metric'){
+      if(!isNaN(resultKph)){
+        this.setState({ result: 'Estimated top speed: ' + resultKph.toFixed(2) + ' km/h' });
+      }
+      else{
+        this.setState({ result: 'Please fill out all fields' });
+      }
     }
     else{
-      this.setState({ result: 'Please fill out all fields' });
+      if(!isNaN(resultMph)){
+        this.setState({ result: 'Estimated top speed: ' + resultMph.toFixed(2) + ' mi/h' });
+      }
+      else{
+        this.setState({ result: 'Please fill out all fields' });
+      }
     }
+
+    
   }
 
   onValueChange = (value, type) => {

@@ -9,7 +9,7 @@ export default class Dropdown extends Component {
     onValueChange = (value) => {
         this.setState({ selectedValue: value })
         this.props.onValueChange(value, this.props.type);
-    }
+    };
 
     render() {
         const items = this.props.items;
