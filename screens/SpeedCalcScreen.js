@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { AsyncStorage } from 'react-native';
-import ESK8Speed from '../components/ESK8Speed';
+import { AsyncStorage, StyleSheet, View } from 'react-native';
+import Speed from '../components/Speed';
 
 export default class SpeedCalcScreen extends Component {
   state = { appMode: '', driveSystem: '', units: '' };
@@ -28,19 +28,28 @@ export default class SpeedCalcScreen extends Component {
 
   render() {
     return (
-      <ESK8Speed
+      <View style={styles.container}>
+      <Speed
         appMode={this.state.appMode}
         driveSystem={this.state.driveSystem}
         units={this.state.units}
       />
+      </View>
     );
   }
 }
 
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    flexDirection:'row',
+    alignItems:'center',
+  }
+});
+
 SpeedCalcScreen.navigationOptions = {
   title: 'Speed Calculator',
   headerTitleStyle: {
-    alignSelf: 'center',
     flex: 1,
     textAlign: 'center'
   },

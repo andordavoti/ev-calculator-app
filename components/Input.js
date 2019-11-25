@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-    StyleSheet, Dimensions, View
+    StyleSheet, Dimensions, View, Text
 } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
 
@@ -13,15 +13,19 @@ export default class Input extends Component {
 
     render() {
         return (
+
             <View style={styles.container}>
+                <Text style={styles.text}>{this.props.text}</Text>
+            <View style={styles.inputContainer}>
             <TextInput
                 returnKeyType='done'
                 keyboardType="decimal-pad"
-                style={styles.textInput}
+                style={styles.input}
                 onChangeText={this.onValueChange}
                 value={this.props.value}
                 textAlign={'center'}
             />
+            </View>
             </View>
         );
     }
@@ -29,16 +33,30 @@ export default class Input extends Component {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
+        flexDirection: 'row',
+        width: Dimensions.get('window').width,
+        paddingLeft: Dimensions.get('window').width / 5,
+        paddingBottom: 20
     },
-    textInput: {
-        flex: 1,
+    inputContainer: {
+        flex: 0.5,
+    },
+    input: {
         minHeight: 40,
         maxWidth: 40,
         borderColor: 'gray',
         borderWidth: 1.5,
         marginLeft: 10,
-        borderRadius: 4,
+        borderRadius: 8,
         fontSize: 18,
+    },
+    text: {
+        flex: 0.6,
+        width: 350,
+        fontSize: 18,
+        textAlign: 'right',
+        justifyContent: 'center',
+        alignItems: 'center',
+        paddingTop: 10,
     },
 });

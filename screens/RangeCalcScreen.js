@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { AsyncStorage } from 'react-native';
-import ESK8Range from '../components/ESK8Range';
+import { View, AsyncStorage, StyleSheet } from 'react-native';
+import Range from '../components/Range';
 
 export default class RangeCalcScreen extends Component {
   state = { appMode: '', driveSystem: '', units: '' };
@@ -28,19 +28,28 @@ export default class RangeCalcScreen extends Component {
 
   render() {
     return (
-      <ESK8Range
+    <View style={styles.container}>
+      <Range
       appMode={this.state.appMode}
       driveSystem={this.state.driveSystem}
       units={this.state.units}
       />
+      </View>
     );
   }
 }
 
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    flexDirection:'row',
+    alignItems:'center',
+  }
+});
+
 RangeCalcScreen.navigationOptions = {
   title: 'Range Calculator',
   headerTitleStyle: {
-    alignSelf: 'center',
     flex: 1,
     textAlign: 'center'
   },

@@ -40,9 +40,9 @@ export default class Dropdown extends Component {
 
 const styles = StyleSheet.create({
     container: {
-        marginTop: 37,
-        paddingLeft: 67,
-        paddingRight: 67
+        marginLeft: 80,
+        marginRight: 80,
+        paddingBottom: 20
     },
     inputIOS: {
         textAlign: 'center',
