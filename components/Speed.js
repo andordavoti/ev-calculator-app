@@ -22,10 +22,20 @@ export default class Speed extends Component {
   calculate = () => {
     const { motorPulleyTeeth, wheelPulleyTeeth, motorKVRating, wheelSize, cellsInSeries, nominalCellVoltage } = this.state;
 
-    let resultMph = nominalCellVoltage * cellsInSeries * motorKVRating * Math.PI * (motorPulleyTeeth / wheelPulleyTeeth) * wheelSize * 0.00003728226;
+    var gearRatio;
+
+    if (this.props.driveSystem === 'hub') {
+      gearRatio = 1;
+    }
+    else {
+      gearRatio = (motorPulleyTeeth / wheelPulleyTeeth);
+    }
+
+    let resultMph = nominalCellVoltage * cellsInSeries * motorKVRating * Math.PI * gearRatio * wheelSize * 0.00003728226;
     let resultKph = resultMph * 1.60934;
 
     units = this.props.units;
+
 
     if (units === 'metric' || units === 'default') {
       if (!isNaN(resultKph)) {
@@ -43,72 +53,100 @@ export default class Speed extends Component {
         this.setState({ result: 'Please fill out all fields' });
       }
     }
-  }
+  };
 
   onValueChange = (value, type) => {
-    this.setState({ [type]: parseFloat(value) });
+    if (!(value === null)) {
+      let number = parseFloat(value.replace(",", "."));
+      this.setState({ [type]: number });
+    }
+    else {
+      this.setState({ [type]: parseFloat(value) });
+    }
   }
+
+  appMode = () => {
+    if (this.props.appMode === 'advanced') {
+      return (
+        <Input
+          text="Nominal Cell Voltage:"
+          onValueChange={this.onValueChange}
+          type="nominalCellVoltage"
+        />
+      );
+    }
+    return (
+      <Dropdown
+        onValueChange={this.onValueChange}
+        type="nominalCellVoltage"
+        placeholder={{ label: 'Select battery type', value: null, color: '#9EA0A4' }}
+        items={[
+          {
+            label: 'Li-Po (3.7V)',
+            value: '3.7',
+          },
+          {
+            label: 'Li-Ion (3.6V)',
+            value: '3.6',
+          },
+          {
+            label: 'Li-Fe (3.3V)',
+            value: '3.3',
+          }
+        ]}
+      />
+    );
+  };
+
+  driveSystem = () => {
+    if (this.props.driveSystem === 'hub') {
+      return <View></View>;
+    }
+    else {
+      return (
+        <View>
+          <Input
+            text="Motor Pulley Teeth:"
+            onValueChange={this.onValueChange}
+            type="motorPulleyTeeth"
+          />
+
+          <Input
+            text="Wheel Pulley Teeth:"
+            onValueChange={this.onValueChange}
+            type="wheelPulleyTeeth"
+          />
+        </View>
+      );
+    }
+  };
 
   render() {
     return (
       <View>
-        <Input
-          text="Motor Pulley Teeth:"
-          onValueChange={this.onValueChange}
-          type="motorPulleyTeeth"
-        />
-
-        <Input
-          text="Wheel Pulley Teeth:"
-          onValueChange={this.onValueChange}
-          type="wheelPulleyTeeth"
-        />
-
+        {this.driveSystem()}
         <Input
           text="Motor KV Rating:"
           onValueChange={this.onValueChange}
           type="motorKVRating"
         />
-
         <Input
           text="Wheel Size (in mm):"
           onValueChange={this.onValueChange}
           type="wheelSize"
         />
-
         <Input
           text="Cells in Series:"
           onValueChange={this.onValueChange}
           type="cellsInSeries"
         />
-
-        <Dropdown
-          onValueChange={this.onValueChange}
-          type="nominalCellVoltage"
-          placeholder={{ label: 'Select battery type', value: null, color: '#9EA0A4' }}
-          items={[
-            {
-              label: 'Li-Po (3.7V)',
-              value: '3.7',
-            },
-            {
-              label: 'Li-Ion (3.6V)',
-              value: '3.6',
-            },
-            {
-              label: 'Li-Fe (3.3V)',
-              value: '3.3',
-            }
-          ]}
-        />
-
+        {this.appMode()}
         <View style={styles.buttonContainer}>
           <Button
             onPress={this.calculate}
             text="Calculate"
           />
         </View>
-
         <Text style={styles.result}>{this.state.result}</Text>
       </View>
     );

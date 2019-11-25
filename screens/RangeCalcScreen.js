@@ -5,10 +5,6 @@ import Range from '../components/Range';
 export default class RangeCalcScreen extends Component {
   state = { appMode: '', driveSystem: '', units: '' };
 
-  componentWillMount() {
-    this.getUserSettings();
-  }
-
   componentDidMount() {
     this._navListener = this.props.navigation.addListener('didFocus', () => {
       this.getUserSettings();

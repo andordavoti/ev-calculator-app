@@ -38,38 +38,38 @@ export default class Range extends Component {
         this.setState({ result: 'Please fill out all fields' });
       }
     }
-
-
   }
 
   onValueChange = (value, type) => {
-    this.setState({ [type]: parseFloat(value) });
+    if (!(value === null)) {
+      let number = parseFloat(value.replace(",", "."));
+      this.setState({ [type]: number });
+    }
+    else {
+      this.setState({ [type]: parseFloat(value) });
+    }
   }
 
-  render() {
-    return (
-      <View style={styles.container}>
-
-        <View style={styles.InputContainer}>
+  appMode = () => {
+    if (this.props.appMode === 'advanced') {
+      return (
+        <View>
           <Input
-            text="Cells in Series:"
+            text="Max Cell Voltage:"
             onValueChange={this.onValueChange}
-            type="cellsInSeries"
+            type="cellVoltage"
           />
 
           <Input
-            text="Cells in Parallell:"
+            text="Wh per mile:"
             onValueChange={this.onValueChange}
-            type="cellsInParallell"
-          />
-
-          <Input
-            text="Cell Capacity (in Ah):"
-            onValueChange={this.onValueChange}
-            type="cellCapacity"
+            type="whPerMile"
           />
         </View>
-
+      );
+    }
+    return (
+      <View>
         <Dropdown
           onValueChange={this.onValueChange}
           type="cellVoltage"
@@ -109,6 +109,35 @@ export default class Range extends Component {
             }
           ]}
         />
+      </View>
+    );
+  };
+
+  render() {
+    return (
+      <View style={styles.container}>
+
+        <View style={styles.InputContainer}>
+          <Input
+            text="Cells in Series:"
+            onValueChange={this.onValueChange}
+            type="cellsInSeries"
+          />
+
+          <Input
+            text="Cells in Parallell:"
+            onValueChange={this.onValueChange}
+            type="cellsInParallell"
+          />
+
+          <Input
+            text="Cell Capacity (in Ah):"
+            onValueChange={this.onValueChange}
+            type="cellCapacity"
+          />
+        </View>
+
+        {this.appMode()}
 
         <View style={styles.buttonContainer}>
           <Button

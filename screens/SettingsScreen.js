@@ -5,10 +5,6 @@ import Settings from '../components/Settings';
 export default class SettingsScreen extends Component {
   state = { appMode: '', driveSystem: '', units: '' };
 
-  componentWillMount() {
-    this.getUserSettings();
-  }
-
   componentDidMount() {
     this._navListener = this.props.navigation.addListener('didFocus', () => {
       this.getUserSettings();
