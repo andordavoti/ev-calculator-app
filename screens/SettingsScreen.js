@@ -1,45 +1,20 @@
-import React, { Component } from 'react';
-import { View, AsyncStorage, StyleSheet } from 'react-native';
+import React from 'react';
+import { View, StyleSheet } from 'react-native';
 import Settings from '../components/Settings';
 
-export default class SettingsScreen extends Component {
-  state = { appMode: '', driveSystem: '', units: '' };
-
-  componentDidMount() {
-    this._navListener = this.props.navigation.addListener('didFocus', () => {
-      this.getUserSettings();
-    });
-  }
-
-  getUserSettings = async () => {
-    const settingsArray = await AsyncStorage.getItem('settingsArray');
-    const data = JSON.parse(settingsArray);
-
-    this.setState({
-      appMode: data.appMode,
-      driveSystem: data.driveSystem,
-      units: data.units
-    });
-  }
-
-  render() {
+export default SettingsScreen = () => {
     return (
-    <View style={styles.container}>
-      <Settings
-      appMode={this.state.appMode}
-      driveSystem={this.state.driveSystem}
-      units={this.state.units}
-      />
+      <View style={styles.container}>
+        <Settings />
       </View>
     );
-  }
-}
+};
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection:'row',
-    alignItems:'center',
+    flexDirection: 'row',
+    alignItems: 'center',
   }
 });
 

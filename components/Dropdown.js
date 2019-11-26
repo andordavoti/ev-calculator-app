@@ -6,6 +6,12 @@ import { Ionicons } from '@expo/vector-icons';
 export default class Dropdown extends Component {
     state = { selectedValue: '' };
 
+    componentDidUpdate(prevProps) {
+        if(this.props.value !== prevProps.value){
+            this.setState({ selectedValue: this.props.value });
+        }
+    }
+    
     onValueChange = (value) => {
         this.setState({ selectedValue: value })
         this.props.onValueChange(value, this.props.type);
@@ -14,7 +20,6 @@ export default class Dropdown extends Component {
     render() {
         const items = this.props.items;
         const placeholder = this.props.placeholder;
-
         return (
             <View style={styles.container}>
                 <RNPickerSelect
@@ -53,7 +58,7 @@ const styles = StyleSheet.create({
         borderColor: 'gray',
         borderRadius: 10,
         color: 'black',
-        paddingRight: 30, // to ensure the text is never behind the icon
+        paddingRight: 30,
     },
     inputAndroid: {
         textAlign: 'center',
@@ -64,6 +69,6 @@ const styles = StyleSheet.create({
         borderColor: 'gray',
         borderRadius: 10,
         color: 'black',
-        paddingRight: 30, // to ensure the text is never behind the icon
+        paddingRight: 30,
     },
 });

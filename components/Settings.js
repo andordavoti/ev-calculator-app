@@ -7,14 +7,20 @@ import Button from '../components/Button';
 export default class Settings extends Component {
     state = { appMode: '', driveSystem: '', units: '' };
 
-    async componentWillMount() {
-
-        this.setState({
-            appMode: this.props.appMode,
-            driveSystem: this.props.driveSystem,
-            units: this.props.units
-        });
+    componentWillMount() {
+        this.getUserSettings();
     }
+
+    getUserSettings = async () => {
+        const settingsArray = await AsyncStorage.getItem('settingsArray');
+        const data = JSON.parse(settingsArray);
+    
+        this.setState({
+          appMode: data.appMode,
+          driveSystem: data.driveSystem,
+          units: data.units
+        });
+      }
 
     saveSettings = () => {
         const { appMode, driveSystem, units } = this.state
@@ -54,6 +60,7 @@ export default class Settings extends Component {
 
                 <Text style={styles.text}>Select Drive System:</Text>
                 <Dropdown
+                    value={this.state.driveSystem}
                     onValueChange={this.onValueChange}
                     type="driveSystem"
                     placeholder={{ label: 'Belt Drive or Hub Drive', value: 'default', color: '#9EA0A4' }}
@@ -71,6 +78,7 @@ export default class Settings extends Component {
 
                 <Text style={styles.text}>Select Units of Measurement:</Text>
                 <Dropdown
+                    value={this.state.units}
                     onValueChange={this.onValueChange}
                     type="units"
                     placeholder={{ label: 'Select Units', value: 'default', color: '#9EA0A4' }}

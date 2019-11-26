@@ -1,6 +1,6 @@
 { 
   "expo": {
-    "name": "EV Calculator - Speed & Range",
+    "name": "EV Calculator",
     "slug": "ev-calculator",
     "privacy": "public",
     "sdkVersion": "35.0.0",
