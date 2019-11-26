@@ -1,1 +1,0 @@
-password for certificate is our company name's first 6 letters
