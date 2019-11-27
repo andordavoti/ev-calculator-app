@@ -9,7 +9,7 @@
       "android",
       "web"
     ],
-    "version": "1.0.1",
+    "version": "1.0.2",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "splash": {
@@ -25,13 +25,13 @@
     ],
     "ios": {
       "bundleIdentifier": "ev.calculator.mobileapp",
-      "buildNumber": "26092019",
+      "buildNumber": "27092019",
       "supportsTablet": false,
       "isTabletOnly": false
     },
     "android": {
       "package": "ev.calculator.mobileapp",
-      "versionCode": 26092019,
+      "versionCode": 27092019,
       "permissions": []
     }
   }
