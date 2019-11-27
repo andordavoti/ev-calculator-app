@@ -14,15 +14,13 @@ export default class Settings extends Component {
     getUserSettings = async () => {
         const settingsArray = await AsyncStorage.getItem('settingsArray');
         const data = JSON.parse(settingsArray);
-    
-        if(!data === null){
-            this.setState({
-              appMode: data.appMode,
-              driveSystem: data.driveSystem,
-              units: data.units,
-            });
-          }
-      }
+
+        this.setState({
+            appMode: data.appMode,
+            driveSystem: data.driveSystem,
+            units: data.units,
+        });
+    }
 
     saveSettings = () => {
         const { appMode, driveSystem, units } = this.state

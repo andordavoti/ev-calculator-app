@@ -15,23 +15,21 @@ export default class RangeCalcScreen extends Component {
     const settingsArray = await AsyncStorage.getItem('settingsArray');
     const data = JSON.parse(settingsArray);
 
-    if(!data === null){
-      this.setState({
-        appMode: data.appMode,
-        driveSystem: data.driveSystem,
-        units: data.units,
-      });
-    }
+    this.setState({
+      appMode: data.appMode,
+      driveSystem: data.driveSystem,
+      units: data.units,
+    });
   }
 
   render() {
     return (
-    <View style={styles.container}>
-      <Range
-      appMode={this.state.appMode}
-      driveSystem={this.state.driveSystem}
-      units={this.state.units}
-      />
+      <View style={styles.container}>
+        <Range
+          appMode={this.state.appMode}
+          driveSystem={this.state.driveSystem}
+          units={this.state.units}
+        />
       </View>
     );
   }
@@ -40,8 +38,8 @@ export default class RangeCalcScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection:'row',
-    alignItems:'center',
+    flexDirection: 'row',
+    alignItems: 'center',
   }
 });
 
