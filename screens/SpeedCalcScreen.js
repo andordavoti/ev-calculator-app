@@ -19,11 +19,16 @@ export default class SpeedCalcScreen extends Component {
     const settingsArray = await AsyncStorage.getItem('settingsArray');
     const data = JSON.parse(settingsArray);
 
-    this.setState({
-      appMode: data.appMode,
-      driveSystem: data.driveSystem,
-      units: data.units,
-    });
+    if (data !== null) {
+      this.setState({
+        appMode: data.appMode,
+        driveSystem: data.driveSystem,
+        units: data.units,
+      });
+    }
+    else {
+      console.log('data is null');
+    }
   }
 
   render() {
