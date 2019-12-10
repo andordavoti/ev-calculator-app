@@ -7,7 +7,7 @@ import Button from '../components/Button';
 export default class Settings extends Component {
     state = { appMode: '', driveSystem: '', units: '' };
 
-    componentWillMount() {
+    componentDidMount() {
         this.getUserSettings();
     }
 
