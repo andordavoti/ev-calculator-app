@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, StyleSheet } from 'react-native';
+import { Text, View, StyleSheet, Keyboard } from 'react-native';
 import Input from './Input';
 import Dropdown from './Dropdown';
 import Button from './Button';
@@ -15,6 +15,8 @@ export default class Range extends Component {
   };
 
   calculate = () => {
+    Keyboard.dismiss();
+
     const { cellCapacity, cellVoltage, whPerMile, cellsInSeries, cellsInParallell } = this.state;
 
     let resultMiles = cellsInParallell * cellCapacity * cellVoltage * cellsInSeries / whPerMile;

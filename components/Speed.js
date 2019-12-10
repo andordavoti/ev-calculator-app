@@ -3,6 +3,7 @@ import {
   StyleSheet,
   Text,
   View,
+  Keyboard
 } from 'react-native';
 import Input from './Input';
 import Dropdown from './Dropdown';
@@ -20,6 +21,8 @@ export default class Speed extends Component {
   };
 
   calculate = () => {
+    Keyboard.dismiss();
+
     const { motorPulleyTeeth, wheelPulleyTeeth, motorKVRating, wheelSize, cellsInSeries, nominalCellVoltage } = this.state;
 
     var gearRatio;
