@@ -18,14 +18,15 @@
       "backgroundColor": "#ffffff"
     },
     "updates": {
-      "fallbackToCacheTimeout": 0
+      "fallbackToCacheTimeout": 0,
+      "enabled": false
     },
     "assetBundlePatterns": [
       "**/*"
     ],
     "ios": {
       "bundleIdentifier": "ev.calculator.mobileapp",
-      "buildNumber": "8122019",
+      "buildNumber": "12122019",
       "supportsTablet": false,
       "isTabletOnly": false
     },
