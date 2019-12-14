@@ -19,14 +19,13 @@
     },
     "updates": {
       "fallbackToCacheTimeout": 0,
-      "enabled": false
     },
     "assetBundlePatterns": [
       "**/*"
     ],
     "ios": {
       "bundleIdentifier": "ev.calculator.mobileapp",
-      "buildNumber": "12122019",
+      "buildNumber": "13122019",
       "supportsTablet": false,
       "isTabletOnly": false
     },
