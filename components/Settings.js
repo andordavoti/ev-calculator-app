@@ -43,10 +43,12 @@ export default class Settings extends Component {
     };
 
     render() {
+        let theme = this.props.theme;
         return (
             <View style={styles.container}>
-                <Text style={styles.text}>Select App Mode:</Text>
+                <Text style={theme === 'dark' ? styles.textDark : styles.textLight}>Select App Mode:</Text>
                 <Dropdown
+                    theme={theme}
                     value={this.state.appMode}
                     onValueChange={this.onValueChange}
                     type="appMode"
@@ -63,8 +65,9 @@ export default class Settings extends Component {
                     ]}
                 />
 
-                <Text style={styles.text}>Select Drive System:</Text>
+                <Text style={theme === 'dark' ? styles.textDark : styles.textLight}>Select Drive System:</Text>
                 <Dropdown
+                    theme={theme}
                     value={this.state.driveSystem}
                     onValueChange={this.onValueChange}
                     type="driveSystem"
@@ -81,8 +84,9 @@ export default class Settings extends Component {
                     ]}
                 />
 
-                <Text style={styles.text}>Select Units of Measurement:</Text>
+                <Text style={theme === 'dark' ? styles.textDark : styles.textLight}>Select Units of Measurement:</Text>
                 <Dropdown
+                    theme={theme}
                     value={this.state.units}
                     onValueChange={this.onValueChange}
                     type="units"
@@ -101,12 +105,13 @@ export default class Settings extends Component {
 
                 <View style={styles.buttonContainer}>
                     <Button
+                        theme={theme}
                         text="Save Settings"
                         onPress={this.saveSettings}
                     />
                 </View>
 
-                <Text style={styles.textVersion}>Version: {Constants.manifest.version}</Text>
+                <Text style={theme === 'dark' ? styles.textVersionDark : styles.textVersionLight}>Version: {Constants.manifest.version}</Text>
             </View>
         );
     }
@@ -119,12 +124,26 @@ const styles = StyleSheet.create({
     buttonContainer: {
         paddingTop: 50
     },
-    text: {
+    textDark: {
+        color: 'white',
         textAlign: 'center',
         fontSize: 18,
         paddingBottom: 10
     },
-    textVersion: {
+    textVersionDark: {
+        color: 'white',
+        textAlign: 'center',
+        fontSize: 18,
+        paddingTop: 10
+    },
+    textLight: {
+        color: 'black',
+        textAlign: 'center',
+        fontSize: 18,
+        paddingBottom: 10
+    },
+    textVersionLight: {
+        color: 'black',
         textAlign: 'center',
         fontSize: 18,
         paddingTop: 10

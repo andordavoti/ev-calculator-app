@@ -1,62 +1,85 @@
-import { AppLoading } from 'expo';
-import { Asset } from 'expo-asset';
-import * as Font from 'expo-font';
-import React, { useState } from 'react';
-import { Platform, StatusBar, StyleSheet, View } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import React from 'react';
+import { StatusBar } from 'react-native';
+import { createAppContainer } from 'react-navigation';
+import { createStackNavigator } from 'react-navigation-stack';
+import { createBottomTabNavigator } from 'react-navigation-tabs';
+import { AppearanceProvider, useColorScheme } from 'react-native-appearance';
 
-import AppNavigator from './navigation/AppNavigator';
+import SpeedScreen from './screens/SpeedScreen';
+import RangeScreen from './screens/RangeScreen';
+import SettingsScreen from './screens/SettingsScreen';
+import TabBarIcon from './components/TabBarIcon';
 
-export default function App(props) {
-  
-  const [isLoadingComplete, setLoadingComplete] = useState(false);
+SpeedScreen.navigationOptions = {
+  title: 'Speed',
+  headerTitleStyle: {
+      flex: 1,
+      textAlign: 'center'
+  },
+};
 
-  if (!isLoadingComplete && !props.skipLoadingScreen) {
+RangeScreen.navigationOptions = {
+  title: 'Range',
+  headerTitleStyle: {
+      flex: 1,
+      textAlign: 'center'
+  },
+};
+
+SettingsScreen.navigationOptions = {
+  title: 'Settings',
+  headerTitleStyle: {
+      flex: 1,
+      textAlign: 'center'
+  },
+};
+
+let SpeedScreenStack = createStackNavigator({ SpeedScreen });
+let RangeScreenStack = createStackNavigator({ RangeScreen });
+let SettingsScreenStack = createStackNavigator({ SettingsScreen });
+
+let Tabs = createBottomTabNavigator({ SpeedScreenStack, RangeScreenStack, SettingsScreenStack });
+let Navigation = createAppContainer(Tabs);
+
+export default App = () => {
+    let theme = useColorScheme();
+
+    SpeedScreenStack.navigationOptions = {
+      tabBarLabel: 'Speed',
+      tabBarOptions: {
+        activeTintColor: theme === 'dark' ? 'white' : 'black',
+        inactiveTintColor: theme === 'dark' ? 'gray' : '#ccc',
+      },
+      tabBarIcon: ({ focused }) => (
+        <TabBarIcon theme={theme} focused={focused} name='speedometer' />
+      ),
+    };
+
+    RangeScreenStack.navigationOptions = {
+      tabBarLabel: 'Range',
+      tabBarOptions: {
+        activeTintColor: theme === 'dark' ? 'white' : 'black',
+        inactiveTintColor: theme === 'dark' ? 'gray' : '#ccc',
+      },
+      tabBarIcon: ({ focused }) => (
+        <TabBarIcon theme={theme} focused={focused} name='fuel' />
+      ),
+    };
+
+    SettingsScreenStack.navigationOptions = {
+      tabBarLabel: 'Settings',
+      tabBarOptions: {
+        activeTintColor: theme === 'dark' ? 'white' : 'black',
+        inactiveTintColor: theme === 'dark' ? 'gray' : '#ccc',
+      },
+      tabBarIcon: ({ focused }) => (
+        <TabBarIcon theme={theme} focused={focused} name='settings' />
+      ),
+    };
     return (
-      <AppLoading
-        startAsync={loadResourcesAsync}
-        onError={handleLoadingError}
-        onFinish={() => handleFinishLoading(setLoadingComplete)}
-      />
-    );
-  } else {
-    return (
-      <View style={styles.container}>
-        {Platform.OS === 'ios' && <StatusBar barStyle="dark-content" />}
-        <AppNavigator />
-      </View>
+      <AppearanceProvider>
+        {Platform.OS === 'ios' && <StatusBar barStyle={theme === 'dark' ? 'light-content' : 'dark-content'} />}
+        <Navigation theme={theme} screenProps={theme} />
+      </AppearanceProvider>
     );
   }
-}
-
-async function loadResourcesAsync() {
-  await Promise.all([
-    Asset.loadAsync([
-      //Load assets
-    ]),
-    Font.loadAsync({
-      // This is the font that we are using for our tab bar
-      ...Ionicons.font,
-      // We include SpaceMono because we use it in SpeedCalcScreen.js. Feel free to
-      // remove this if you are not using it in your app
-      'space-mono': require('./assets/fonts/SpaceMono-Regular.ttf'),
-    }),
-  ]);
-}
-
-function handleLoadingError(error) {
-  // In this case, you might want to report the error to your error reporting
-  // service, for example Sentry
-  console.warn(error);
-}
-
-function handleFinishLoading(setLoadingComplete) {
-  setLoadingComplete(true);
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-  },
-});

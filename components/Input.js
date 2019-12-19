@@ -13,14 +13,13 @@ export default class Input extends Component {
 
     render() {
         return (
-
             <View style={styles.container}>
-                <Text style={styles.text}>{this.props.text}</Text>
+                <Text style={this.props.theme === 'dark' ? styles.textDark : styles.textLight}>{this.props.text}</Text>
             <View style={styles.inputContainer}>
             <TextInput
                 returnKeyType='done'
                 keyboardType="decimal-pad"
-                style={styles.input}
+                style={this.props.theme === 'dark' ? styles.inputDark : styles.inputLight}
                 onChangeText={this.onValueChange}
                 value={this.props.value}
                 textAlign={'center'}
@@ -41,16 +40,17 @@ const styles = StyleSheet.create({
     inputContainer: {
         flex: 0.5,
     },
-    input: {
+    inputDark: {
         minHeight: 40,
         maxWidth: 40,
-        borderColor: 'gray',
+        borderColor: 'white',
         borderWidth: 1.5,
         marginLeft: 10,
         borderRadius: 8,
         fontSize: 18,
+        color: 'white'
     },
-    text: {
+    textDark: {
         flex: 0.6,
         width: 350,
         fontSize: 18,
@@ -58,5 +58,26 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         paddingTop: 10,
+        color: 'white'
+    },
+    inputLight: {
+        minHeight: 40,
+        maxWidth: 40,
+        borderColor: 'gray',
+        borderWidth: 1.5,
+        marginLeft: 10,
+        borderRadius: 8,
+        fontSize: 18,
+        color: 'black'
+    },
+    textLight: {
+        flex: 0.6,
+        width: 350,
+        fontSize: 18,
+        textAlign: 'right',
+        justifyContent: 'center',
+        alignItems: 'center',
+        paddingTop: 10,
+        color: 'black'
     },
 });

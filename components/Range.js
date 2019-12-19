@@ -53,16 +53,19 @@ export default class Range extends Component {
   }
 
   appMode = () => {
+    let theme = this.props.theme;
     if (this.props.appMode === 'advanced') {
       return (
         <View>
           <Input
+            theme={theme}
             text="Max Cell Voltage:"
             onValueChange={this.onValueChange}
             type="cellVoltage"
           />
 
           <Input
+            theme={theme}
             text="Wh per mile:"
             onValueChange={this.onValueChange}
             type="whPerMile"
@@ -73,6 +76,7 @@ export default class Range extends Component {
     return (
       <View>
         <Dropdown
+          theme={theme}
           onValueChange={this.onValueChange}
           type="cellVoltage"
           placeholder={{ label: 'Select battery type', value: null, color: '#9EA0A4' }}
@@ -89,6 +93,7 @@ export default class Range extends Component {
         />
 
         <Dropdown
+          theme={theme}
           onValueChange={this.onValueChange}
           type="whPerMile"
           placeholder={{ label: 'Select setup (Wh per mile)', value: null, color: '#9EA0A4' }}
@@ -116,23 +121,27 @@ export default class Range extends Component {
   };
 
   render() {
+    let theme = this.props.theme;
     return (
       <View style={styles.container}>
 
         <View style={styles.InputContainer}>
           <Input
+            theme={theme}
             text="Cells in Series:"
             onValueChange={this.onValueChange}
             type="cellsInSeries"
           />
 
           <Input
+            theme={theme}
             text="Cells in Parallell:"
             onValueChange={this.onValueChange}
             type="cellsInParallell"
           />
 
           <Input
+            theme={theme}
             text="Cell Capacity (in Ah):"
             onValueChange={this.onValueChange}
             type="cellCapacity"
@@ -143,13 +152,14 @@ export default class Range extends Component {
 
         <View style={styles.buttonContainer}>
           <Button
+            theme={theme}
             onPress={this.calculate}
             text="Calculate"
           />
         </View>
 
         <View style={styles.resultContainer}>
-          <Text style={styles.result}>{this.state.result}</Text>
+          <Text style={theme === 'dark' ? styles.resultDark : styles.resultLight}>{this.state.result}</Text>
         </View>
       </View>
     );
@@ -160,9 +170,16 @@ const styles = StyleSheet.create({
   buttonContainer: {
     paddingTop: 50
   },
-  result: {
-    padding: 50,
+  resultLight: {
+    paddingTop: 50,
     fontSize: 18,
-    textAlign: 'center'
+    textAlign: 'center',
+    color: 'black'
+  },
+  resultDark: {
+    paddingTop: 50,
+    fontSize: 18,
+    textAlign: 'center',
+    color: 'white'
   }
 });

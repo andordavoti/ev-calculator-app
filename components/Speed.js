@@ -69,9 +69,11 @@ export default class Speed extends Component {
   }
 
   appMode = () => {
+    let theme = this.props.theme;
     if (this.props.appMode === 'advanced') {
       return (
         <Input
+          theme={theme}
           text="Nominal Cell Voltage:"
           onValueChange={this.onValueChange}
           type="nominalCellVoltage"
@@ -80,6 +82,7 @@ export default class Speed extends Component {
     }
     return (
       <Dropdown
+        theme={theme}
         onValueChange={this.onValueChange}
         type="nominalCellVoltage"
         placeholder={{ label: 'Select battery type', value: null, color: '#9EA0A4' }}
@@ -102,6 +105,7 @@ export default class Speed extends Component {
   };
 
   driveSystem = () => {
+    let theme = this.props.theme;
     if (this.props.driveSystem === 'hub') {
       return <View></View>;
     }
@@ -109,12 +113,14 @@ export default class Speed extends Component {
       return (
         <View>
           <Input
+            theme={theme}
             text="Motor Pulley Teeth:"
             onValueChange={this.onValueChange}
             type="motorPulleyTeeth"
           />
 
           <Input
+            theme={theme}
             text="Wheel Pulley Teeth:"
             onValueChange={this.onValueChange}
             type="wheelPulleyTeeth"
@@ -125,20 +131,24 @@ export default class Speed extends Component {
   };
 
   render() {
+    let theme = this.props.theme;
     return (
       <View>
         {this.driveSystem()}
         <Input
+          theme={theme}
           text="Motor KV Rating:"
           onValueChange={this.onValueChange}
           type="motorKVRating"
         />
         <Input
+          theme={theme}
           text="Wheel Size (in mm):"
           onValueChange={this.onValueChange}
           type="wheelSize"
         />
         <Input
+          theme={theme}
           text="Cells in Series:"
           onValueChange={this.onValueChange}
           type="cellsInSeries"
@@ -146,11 +156,12 @@ export default class Speed extends Component {
         {this.appMode()}
         <View style={styles.buttonContainer}>
           <Button
+            theme={theme}
             onPress={this.calculate}
             text="Calculate"
           />
         </View>
-        <Text style={styles.result}>{this.state.result}</Text>
+        <Text style={theme === 'dark' ? styles.resultDark : styles.resultLight}>{this.state.result}</Text>
       </View>
     );
   }
@@ -160,9 +171,16 @@ const styles = StyleSheet.create({
   buttonContainer: {
     paddingTop: 50
   },
-  result: {
+  resultLight: {
     paddingTop: 50,
     fontSize: 18,
-    textAlign: 'center'
+    textAlign: 'center',
+    color: 'black'
+  },
+  resultDark: {
+    paddingTop: 50,
+    fontSize: 18,
+    textAlign: 'center',
+    color: 'white'
   }
 });
