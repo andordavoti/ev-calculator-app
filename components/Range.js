@@ -24,7 +24,7 @@ export default class Range extends Component {
 
     units = this.props.units;
 
-    if (units === 'metric') {
+    if (units === 'metric' || units === 'default' || units === '' || units === undefined) {
       if (!isNaN(resultKm)) {
         this.setState({ result: 'Estimated range: ' + resultKm.toFixed(2) + ' km' });
       }
@@ -33,7 +33,7 @@ export default class Range extends Component {
       }
     }
     else {
-      if (!isNaN(resultKm)) {
+      if (!isNaN(resultMiles)) {
         this.setState({ result: 'Estimated range: ' + resultMiles.toFixed(2) + ' miles' });
       }
       else {
@@ -56,7 +56,7 @@ export default class Range extends Component {
     let theme = this.props.theme;
     if (this.props.appMode === 'advanced') {
       return (
-        <View>
+        <View style={styles.container}>
           <Input
             theme={theme}
             text="Max Cell Voltage:"
@@ -74,12 +74,12 @@ export default class Range extends Component {
       );
     }
     return (
-      <View>
+      <View style={styles.container}>
         <Dropdown
           theme={theme}
           onValueChange={this.onValueChange}
           type="cellVoltage"
-          placeholder={{ label: 'Select battery type', value: null, color: '#9EA0A4' }}
+          placeholder={{ label: 'Battery type', value: null, color: '#9EA0A4' }}
           items={[
             {
               label: 'Li-Po/Li-Ion (4.2V)',
@@ -96,7 +96,7 @@ export default class Range extends Component {
           theme={theme}
           onValueChange={this.onValueChange}
           type="whPerMile"
-          placeholder={{ label: 'Select setup (Wh per mile)', value: null, color: '#9EA0A4' }}
+          placeholder={{ label: 'Select setup', value: null, color: '#9EA0A4' }}
           items={[
             {
               label: 'Single Motor (15Wh/mi)',
@@ -142,7 +142,7 @@ export default class Range extends Component {
 
           <Input
             theme={theme}
-            text="Cell Capacity (in Ah):"
+            text="Cell Capacity (Ah):"
             onValueChange={this.onValueChange}
             type="cellCapacity"
           />
@@ -167,17 +167,21 @@ export default class Range extends Component {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    alignItems: 'center'
+  },
   buttonContainer: {
-    paddingTop: 50
+    paddingTop: 10,
+    alignItems: 'center',
   },
   resultLight: {
-    paddingTop: 50,
+    paddingTop: 20,
     fontSize: 18,
     textAlign: 'center',
     color: 'black'
   },
   resultDark: {
-    paddingTop: 50,
+    paddingTop: 20,
     fontSize: 18,
     textAlign: 'center',
     color: 'white'

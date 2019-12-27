@@ -119,10 +119,12 @@ export default class Settings extends Component {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1
+        flex: 1,
+        alignItems: 'center'
     },
     buttonContainer: {
-        paddingTop: 50
+        paddingTop: 10,
+        alignItems: 'center',
     },
     textDark: {
         color: 'white',

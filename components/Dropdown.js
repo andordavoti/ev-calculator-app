@@ -7,11 +7,11 @@ export default class Dropdown extends Component {
     state = { selectedValue: '' };
 
     componentDidUpdate(prevProps) {
-        if(this.props.value !== prevProps.value){
+        if (this.props.value !== prevProps.value) {
             this.setState({ selectedValue: this.props.value });
         }
     }
-    
+
     onValueChange = (value) => {
         this.setState({ selectedValue: value })
         this.props.onValueChange(value, this.props.type);
@@ -30,7 +30,7 @@ export default class Dropdown extends Component {
                     useNativeAndroidPickerStyle={false}
                     textInputProps={{ underlineColor: 'yellow' }}
                     Icon={() => { return <Ionicons name="md-arrow-down" size={24} color={this.props.theme === 'dark' ? 'white' : 'gray'} />; }}
-                    style={this.props.theme === 'dark' ? {...stylesDark, iconContainer: { top: 10, right: 12 }} : {...stylesLight, iconContainer: { top: 10, right: 12 }}}
+                    style={this.props.theme === 'dark' ? { ...stylesDark, iconContainer: { top: 10, right: 12 } } : { ...stylesLight, iconContainer: { top: 10, right: 12 } }}
                 />
             </View>
         );
@@ -39,8 +39,6 @@ export default class Dropdown extends Component {
 
 const stylesDark = StyleSheet.create({
     container: {
-        marginLeft: 80,
-        marginRight: 80,
         paddingBottom: 20
     },
     inputIOS: {
@@ -69,8 +67,6 @@ const stylesDark = StyleSheet.create({
 
 const stylesLight = StyleSheet.create({
     container: {
-        marginLeft: 80,
-        marginRight: 80,
         paddingBottom: 20
     },
     inputIOS: {

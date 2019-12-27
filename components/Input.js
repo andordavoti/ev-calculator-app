@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import {
-    StyleSheet, Dimensions, View, Text
-} from 'react-native';
+import { StyleSheet, Dimensions, View, Text } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
 
 export default class Input extends Component {
@@ -14,17 +12,19 @@ export default class Input extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <Text style={this.props.theme === 'dark' ? styles.textDark : styles.textLight}>{this.props.text}</Text>
-            <View style={styles.inputContainer}>
-            <TextInput
-                returnKeyType='done'
-                keyboardType="decimal-pad"
-                style={this.props.theme === 'dark' ? styles.inputDark : styles.inputLight}
-                onChangeText={this.onValueChange}
-                value={this.props.value}
-                textAlign={'center'}
-            />
-            </View>
+                <View style={styles.textContainer}>
+                    <Text style={this.props.theme === 'dark' ? styles.textDark : styles.textLight}>{this.props.text}</Text>
+                </View>
+                <View style={styles.inputContainer}>
+                    <TextInput
+                        returnKeyType='done'
+                        keyboardType="decimal-pad"
+                        style={this.props.theme === 'dark' ? styles.inputDark : styles.inputLight}
+                        onChangeText={this.onValueChange}
+                        value={this.props.value}
+                        textAlign={'center'}
+                    />
+                </View>
             </View>
         );
     }
@@ -34,15 +34,20 @@ const styles = StyleSheet.create({
     container: {
         flexDirection: 'row',
         width: Dimensions.get('window').width,
-        paddingLeft: Dimensions.get('window').width / 5,
-        paddingBottom: 20
+        paddingBottom: 20,
+    },
+    textContainer: {
+        flex: 1,
+        margin: 10
     },
     inputContainer: {
-        flex: 0.5,
+        width: 40,
+        height: 40,
+        marginRight: Dimensions.get('window').width / 3.5
     },
     inputDark: {
-        minHeight: 40,
-        maxWidth: 40,
+        height: 40,
+        width: 40,
         borderColor: 'white',
         borderWidth: 1.5,
         marginLeft: 10,
@@ -50,19 +55,9 @@ const styles = StyleSheet.create({
         fontSize: 18,
         color: 'white'
     },
-    textDark: {
-        flex: 0.6,
-        width: 350,
-        fontSize: 18,
-        textAlign: 'right',
-        justifyContent: 'center',
-        alignItems: 'center',
-        paddingTop: 10,
-        color: 'white'
-    },
     inputLight: {
-        minHeight: 40,
-        maxWidth: 40,
+        height: 40,
+        width: 40,
         borderColor: 'gray',
         borderWidth: 1.5,
         marginLeft: 10,
@@ -70,14 +65,14 @@ const styles = StyleSheet.create({
         fontSize: 18,
         color: 'black'
     },
-    textLight: {
-        flex: 0.6,
-        width: 350,
-        fontSize: 18,
+    textDark: {
+        fontSize: 16,
         textAlign: 'right',
-        justifyContent: 'center',
-        alignItems: 'center',
-        paddingTop: 10,
-        color: 'black'
+        color: 'white',
+    },
+    textLight: {
+        fontSize: 16,
+        textAlign: 'right',
+        color: 'black',
     },
 });

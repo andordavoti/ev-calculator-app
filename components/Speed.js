@@ -39,8 +39,10 @@ export default class Speed extends Component {
 
     units = this.props.units;
 
+    console.log('Units: ' + units)
 
-    if (units === 'metric' || units === 'default') {
+
+    if (units === 'metric' || units === 'default' || units === '' || units === undefined) {
       if (!isNaN(resultKph)) {
         this.setState({ result: 'Estimated top speed: ' + resultKph.toFixed(2) + ' km/h' });
       }
@@ -81,26 +83,28 @@ export default class Speed extends Component {
       );
     }
     return (
-      <Dropdown
-        theme={theme}
-        onValueChange={this.onValueChange}
-        type="nominalCellVoltage"
-        placeholder={{ label: 'Select battery type', value: null, color: '#9EA0A4' }}
-        items={[
-          {
-            label: 'Li-Po (3.7V)',
-            value: '3.7',
-          },
-          {
-            label: 'Li-Ion (3.6V)',
-            value: '3.6',
-          },
-          {
-            label: 'Li-Fe (3.3V)',
-            value: '3.3',
-          }
-        ]}
-      />
+      <View style={styles.container}>
+        <Dropdown
+          theme={theme}
+          onValueChange={this.onValueChange}
+          type="nominalCellVoltage"
+          placeholder={{ label: 'Battery type', value: null, color: '#9EA0A4' }}
+          items={[
+            {
+              label: 'Li-Po (3.7V)',
+              value: '3.7',
+            },
+            {
+              label: 'Li-Ion (3.6V)',
+              value: '3.6',
+            },
+            {
+              label: 'Li-Fe (3.3V)',
+              value: '3.3',
+            }
+          ]}
+        />
+      </View>
     );
   };
 
@@ -111,7 +115,7 @@ export default class Speed extends Component {
     }
     else {
       return (
-        <View>
+        <View style={styles.container}>
           <Input
             theme={theme}
             text="Motor Pulley Teeth:"
@@ -133,7 +137,7 @@ export default class Speed extends Component {
   render() {
     let theme = this.props.theme;
     return (
-      <View>
+      <View style={styles.container}>
         {this.driveSystem()}
         <Input
           theme={theme}
@@ -143,7 +147,7 @@ export default class Speed extends Component {
         />
         <Input
           theme={theme}
-          text="Wheel Size (in mm):"
+          text="Wheel Size (mm):"
           onValueChange={this.onValueChange}
           type="wheelSize"
         />
@@ -168,17 +172,21 @@ export default class Speed extends Component {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    alignItems: 'center'
+  },
   buttonContainer: {
-    paddingTop: 50
+    paddingTop: 10,
+    alignItems: 'center',
   },
   resultLight: {
-    paddingTop: 50,
+    paddingTop: 20,
     fontSize: 18,
     textAlign: 'center',
     color: 'black'
   },
   resultDark: {
-    paddingTop: 50,
+    paddingTop: 20,
     fontSize: 18,
     textAlign: 'center',
     color: 'white'
