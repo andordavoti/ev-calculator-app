@@ -28,7 +28,10 @@
       "bundleIdentifier": "ev.calculator.mobileapp",
       "buildNumber": "27122019",
       "supportsTablet": false,
-      "isTabletOnly": false
+      "isTabletOnly": false,
+      "config": {
+        "usesNonExemptEncryption": false
+      }
     },
     "android": {
       "package": "ev.calculator.mobileapp",
