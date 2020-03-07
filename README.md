@@ -4,7 +4,11 @@ This app is for calculating the estimated top speed and range of your electric v
 
 The app can be used for the following vehicles: E-boards, e-bikes, e-scooters and e-gokarts.
 
-Downloads:
+**Screenshots:**
+
+<img src="screenshots/1.png" width="150" ><img src="screenshots/2.png" width="150" ><img src="screenshots/3.png" width="150" >
+
+**Downloads:**
 
 Play Store: https://play.google.com/store/apps/details?id=ev.calculator.mobileapp
 
