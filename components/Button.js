@@ -1,16 +1,11 @@
-import React from 'react';
-import { Text, TouchableOpacity } from 'react-native';
+import React from 'react'
+import { Text, TouchableOpacity } from 'react-native'
 
 const Button = ({ onPress, text, theme }) => {
-    
-    return (
-        <TouchableOpacity onPress={onPress} style={theme === 'dark' ? styles.buttonDark : styles.buttonLight}>
-            <Text 
-            style={theme === 'dark' ? styles.textDark : styles.textLight}>{text}
-            </Text>
-        </TouchableOpacity>
-    );
-};
+    return <TouchableOpacity onPress={onPress} style={theme === 'dark' ? styles.buttonDark : styles.buttonLight}>
+        <Text style={theme === 'dark' ? styles.textDark : styles.textLight}>{text}</Text>
+    </TouchableOpacity>
+}
 
 const styles = {
     textDark: {
@@ -39,6 +34,6 @@ const styles = {
         borderColor: 'gray',
         borderRadius: 10,
     }
-};
+}
 
-export default Button;
+export default Button

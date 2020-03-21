@@ -1,13 +1,8 @@
-import React, { Component } from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  Keyboard
-} from 'react-native';
-import Input from './Input';
-import Dropdown from './Dropdown';
-import Button from './Button';
+import React, { Component } from 'react'
+import { StyleSheet, Text, View, Keyboard } from 'react-native'
+import Input from './Input'
+import Dropdown from './Dropdown'
+import Button from './Button'
 
 export default class Speed extends Component {
   state = {
@@ -16,158 +11,136 @@ export default class Speed extends Component {
     motorKVRating: '',
     wheelSize: '',
     cellsInSeries: '',
-    nominalCellVoltage: '',
-    result: null
-  };
+    cellVoltage: '',
+    result: ''
+  }
 
   calculate = () => {
-    Keyboard.dismiss();
+    Keyboard.dismiss()
 
-    const { motorPulleyTeeth, wheelPulleyTeeth, motorKVRating, wheelSize, cellsInSeries, nominalCellVoltage } = this.state;
+    const { motorPulleyTeeth, wheelPulleyTeeth, motorKVRating, wheelSize, cellsInSeries, cellVoltage } = this.state
 
-    var gearRatio;
+    let gearRatio
+    if (this.props.driveSystem === 'hub') gearRatio = 1
+    else gearRatio = (motorPulleyTeeth / wheelPulleyTeeth)
 
-    if (this.props.driveSystem === 'hub') {
-      gearRatio = 1;
-    }
-    else {
-      gearRatio = (motorPulleyTeeth / wheelPulleyTeeth);
-    }
+    const resultKph = ((motorKVRating * cellsInSeries * cellVoltage) / (wheelPulleyTeeth / motorPulleyTeeth)) / wheelSize
+    const resultMph = resultKph / 1.6
 
-    let resultMph = nominalCellVoltage * cellsInSeries * motorKVRating * Math.PI * gearRatio * wheelSize * 0.00003728226;
-    let resultKph = resultMph * 1.60934;
-
-    units = this.props.units;
+    units = this.props.units
 
     console.log('Units: ' + units)
+
+    console.log(motorPulleyTeeth, wheelPulleyTeeth, motorKVRating, wheelSize, cellsInSeries, cellVoltage)
+
+    console.log(((motorKVRating * cellsInSeries * cellVoltage) / (wheelPulleyTeeth / motorPulleyTeeth)) / wheelSize)
 
 
     if (units === 'metric' || units === 'default' || units === '' || units === undefined) {
       if (!isNaN(resultKph)) {
-        this.setState({ result: 'Estimated top speed: ' + resultKph.toFixed(2) + ' km/h' });
+        this.setState({ result: 'Estimated top speed: ' + resultKph.toFixed(2) + ' km/h' })
       }
-      else {
-        this.setState({ result: 'Please fill out all fields' });
-      }
+      else this.setState({ result: 'Please fill out all fields' })
     }
     else {
       if (!isNaN(resultMph)) {
-        this.setState({ result: 'Estimated top speed: ' + resultMph.toFixed(2) + ' mi/h' });
+        this.setState({ result: 'Estimated top speed: ' + resultMph.toFixed(2) + ' mi/h' })
       }
-      else {
-        this.setState({ result: 'Please fill out all fields' });
-      }
-    }
-  };
-
-  onValueChange = (value, type) => {
-    if (!(value === null)) {
-      let number = parseFloat(value.replace(",", "."));
-      this.setState({ [type]: number });
-    }
-    else {
-      this.setState({ [type]: parseFloat(value) });
+      else this.setState({ result: 'Please fill out all fields' })
     }
   }
 
-  appMode = () => {
-    let theme = this.props.theme;
-    if (this.props.appMode === 'advanced') {
-      return (
-        <Input
-          theme={theme}
-          text="Nominal Cell Voltage:"
-          onValueChange={this.onValueChange}
-          type="nominalCellVoltage"
-        />
-      );
+  onValueChange = (value, type) => {
+    if (value !== null) {
+      const number = parseFloat(value.replace(",", "."))
+      this.setState({ [type]: number })
     }
-    return (
-      <View style={styles.container}>
-        <Dropdown
-          theme={theme}
-          onValueChange={this.onValueChange}
-          type="nominalCellVoltage"
-          placeholder={{ label: 'Battery type', value: null, color: '#9EA0A4' }}
-          items={[
-            {
-              label: 'Li-Po (3.7V)',
-              value: '3.7',
-            },
-            {
-              label: 'Li-Ion (3.6V)',
-              value: '3.6',
-            },
-            {
-              label: 'Li-Fe (3.3V)',
-              value: '3.3',
-            }
-          ]}
-        />
-      </View>
-    );
-  };
+    else this.setState({ [type]: parseFloat(value) })
+  }
+
+  appMode = () => {
+    const { theme, appMode } = this.props
+    if (appMode === 'advanced') {
+      return <Input
+        theme={theme}
+        text="Max Cell Voltage:"
+        onValueChange={this.onValueChange}
+        type="cellVoltage"
+      />
+    }
+    return <View style={styles.container}>
+      <Dropdown
+        theme={theme}
+        onValueChange={this.onValueChange}
+        type="cellVoltage"
+        placeholder={{ label: 'Battery type', value: null, color: '#9EA0A4' }}
+        items={[
+          {
+            label: 'Li-Po/Li-Ion (4.2V)',
+            value: '4.2',
+          },
+          {
+            label: 'Li-Fe (3.6V)',
+            value: '3.6',
+          }
+        ]}
+      />
+    </View>
+  }
 
   driveSystem = () => {
-    let theme = this.props.theme;
-    if (this.props.driveSystem === 'hub') {
-      return <View></View>;
-    }
+    const { theme, driveSystem } = this.props
+    if (driveSystem === 'hub') return <View></View>
     else {
-      return (
-        <View style={styles.container}>
-          <Input
-            theme={theme}
-            text="Motor Pulley Teeth:"
-            onValueChange={this.onValueChange}
-            type="motorPulleyTeeth"
-          />
-
-          <Input
-            theme={theme}
-            text="Wheel Pulley Teeth:"
-            onValueChange={this.onValueChange}
-            type="wheelPulleyTeeth"
-          />
-        </View>
-      );
+      return <View style={styles.container}>
+        <Input
+          theme={theme}
+          text="Motor Pulley Teeth:"
+          onValueChange={this.onValueChange}
+          type="motorPulleyTeeth"
+        />
+        <Input
+          theme={theme}
+          text="Wheel Pulley Teeth:"
+          onValueChange={this.onValueChange}
+          type="wheelPulleyTeeth"
+        />
+      </View>
     }
-  };
+  }
 
   render() {
-    let theme = this.props.theme;
-    return (
-      <View style={styles.container}>
-        {this.driveSystem()}
-        <Input
+    let theme = this.props.theme
+    return <View style={styles.container}>
+      {this.driveSystem()}
+      <Input
+        theme={theme}
+        text="Motor KV Rating:"
+        onValueChange={this.onValueChange}
+        type="motorKVRating"
+      />
+      <Input
+        theme={theme}
+        text="Wheel Size (mm):"
+        onValueChange={this.onValueChange}
+        type="wheelSize"
+      />
+      <Input
+        theme={theme}
+        text="Cells in Series:"
+        onValueChange={this.onValueChange}
+        type="cellsInSeries"
+      />
+      {this.appMode()}
+      <View style={styles.buttonContainer}>
+        <Button
           theme={theme}
-          text="Motor KV Rating:"
-          onValueChange={this.onValueChange}
-          type="motorKVRating"
+          onPress={this.calculate}
+          text="Calculate"
         />
-        <Input
-          theme={theme}
-          text="Wheel Size (mm):"
-          onValueChange={this.onValueChange}
-          type="wheelSize"
-        />
-        <Input
-          theme={theme}
-          text="Cells in Series:"
-          onValueChange={this.onValueChange}
-          type="cellsInSeries"
-        />
-        {this.appMode()}
-        <View style={styles.buttonContainer}>
-          <Button
-            theme={theme}
-            onPress={this.calculate}
-            text="Calculate"
-          />
-        </View>
-        <Text style={theme === 'dark' ? styles.resultDark : styles.resultLight}>{this.state.result}</Text>
       </View>
-    );
+      <Text style={theme === 'dark' ? styles.resultDark : styles.resultLight}>{this.state.result}</Text>
+    </View>
   }
 }
 
@@ -191,4 +164,4 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: 'white'
   }
-});
+})

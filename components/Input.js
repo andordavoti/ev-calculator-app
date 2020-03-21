@@ -1,32 +1,28 @@
-import React, { Component } from 'react';
-import { StyleSheet, Dimensions, View, Text } from 'react-native';
-import { TextInput } from 'react-native-gesture-handler';
+import React, { Component } from 'react'
+import { StyleSheet, Dimensions, View, Text } from 'react-native'
+import { TextInput } from 'react-native-gesture-handler'
 
 export default class Input extends Component {
-    state = { value: '' };
+    state = { value: '' }
 
-    onValueChange = (value) => {
-        this.props.onValueChange(value, this.props.type);
-    }
+    onValueChange = (value) => this.props.onValueChange(value, this.props.type)
 
     render() {
-        return (
-            <View style={styles.container}>
-                <View style={styles.textContainer}>
-                    <Text style={this.props.theme === 'dark' ? styles.textDark : styles.textLight}>{this.props.text}</Text>
-                </View>
-                <View style={styles.inputContainer}>
-                    <TextInput
-                        returnKeyType='done'
-                        keyboardType="decimal-pad"
-                        style={this.props.theme === 'dark' ? styles.inputDark : styles.inputLight}
-                        onChangeText={this.onValueChange}
-                        value={this.props.value}
-                        textAlign={'center'}
-                    />
-                </View>
+        return <View style={styles.container}>
+            <View style={styles.textContainer}>
+                <Text style={this.props.theme === 'dark' ? styles.textDark : styles.textLight}>{this.props.text}</Text>
             </View>
-        );
+            <View style={styles.inputContainer}>
+                <TextInput
+                    returnKeyType='done'
+                    keyboardType="decimal-pad"
+                    style={this.props.theme === 'dark' ? styles.inputDark : styles.inputLight}
+                    onChangeText={this.onValueChange}
+                    value={this.props.value}
+                    textAlign={'center'}
+                />
+            </View>
+        </View>
     }
 }
 
@@ -75,4 +71,4 @@ const styles = StyleSheet.create({
         textAlign: 'right',
         color: 'black',
     },
-});
+})
