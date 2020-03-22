@@ -20,11 +20,10 @@ export default class Range extends Component {
     Keyboard.dismiss()
 
     const { cellCapacity, cellVoltage, whPerMile, cellsInSeries, cellsInParallell } = this.state
+    const { units } = this.props
 
     const resultMiles = cellsInParallell * cellCapacity * cellVoltage * cellsInSeries / whPerMile
     const resultKm = resultMiles * 1.60934
-
-    units = this.props.units
 
     if (units === 'metric' || units === 'default' || units === '' || units === undefined) {
       if (!isNaN(resultKm)) {
@@ -49,11 +48,12 @@ export default class Range extends Component {
   }
 
   onValueChange = (value, type) => {
-    if (!(value === null)) {
-      let number = parseFloat(value.replace(",", "."))
+    console.log(value)
+    if (isNaN(value)) {
+      const number = parseFloat(value.replace(",", "."))
       this.setState({ [type]: number })
     }
-    else this.setState({ [type]: parseFloat(value) })
+    else this.setState({ [type]: value })
   }
 
   appMode = () => {
@@ -83,11 +83,11 @@ export default class Range extends Component {
         items={[
           {
             label: 'Li-Po/Li-Ion (4.2V)',
-            value: '4.2',
+            value: 4.2,
           },
           {
             label: 'Li-Fe (3.6V)',
-            value: '3.6',
+            value: 3.6,
           }
         ]}
       />
@@ -100,19 +100,19 @@ export default class Range extends Component {
         items={[
           {
             label: 'Single Motor (15Wh/mi)',
-            value: '15',
+            value: 15,
           },
           {
             label: 'Dual Motor (25Wh/mi)',
-            value: '25',
+            value: 25,
           },
           {
             label: 'Single Hub Motor (25Wh/mi)',
-            value: '30',
+            value: 30,
           },
           {
             label: 'Dual Hub Motor (35Wh/mi)',
-            value: '35',
+            value: 35,
           }
         ]}
       />

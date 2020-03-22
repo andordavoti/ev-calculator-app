@@ -21,6 +21,7 @@ export default class Speed extends Component {
     Keyboard.dismiss()
 
     const { motorPulleyTeeth, wheelPulleyTeeth, motorKVRating, wheelSize, cellsInSeries, cellVoltage } = this.state
+    const { units } = this.props
 
     let gearRatio
     if (this.props.driveSystem === 'hub') gearRatio = 1
@@ -28,15 +29,6 @@ export default class Speed extends Component {
 
     const resultKph = ((motorKVRating * cellsInSeries * cellVoltage) / (wheelPulleyTeeth / motorPulleyTeeth)) / wheelSize
     const resultMph = resultKph / 1.6
-
-    units = this.props.units
-
-    console.log('Units: ' + units)
-
-    console.log(motorPulleyTeeth, wheelPulleyTeeth, motorKVRating, wheelSize, cellsInSeries, cellVoltage)
-
-    console.log(((motorKVRating * cellsInSeries * cellVoltage) / (wheelPulleyTeeth / motorPulleyTeeth)) / wheelSize)
-
 
     if (units === 'metric' || units === 'default' || units === '' || units === undefined) {
       if (!isNaN(resultKph)) {
@@ -61,11 +53,12 @@ export default class Speed extends Component {
   }
 
   onValueChange = (value, type) => {
-    if (value !== null) {
+    console.log(value)
+    if (isNaN(value)) {
       const number = parseFloat(value.replace(",", "."))
       this.setState({ [type]: number })
     }
-    else this.setState({ [type]: parseFloat(value) })
+    else this.setState({ [type]: value })
   }
 
   appMode = () => {
