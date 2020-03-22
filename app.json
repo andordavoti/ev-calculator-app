@@ -10,7 +10,7 @@
       "android",
       "web"
     ],
-    "version": "1.2.0",
+    "version": "1.3.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
@@ -19,14 +19,15 @@
       "backgroundColor": "#ffffff"
     },
     "updates": {
-      "fallbackToCacheTimeout": 0
+      "fallbackToCacheTimeout": 0,
+      "enabled": false
     },
     "assetBundlePatterns": [
       "**/*"
     ],
     "ios": {
       "bundleIdentifier": "ev.calculator.mobileapp",
-      "buildNumber": "27122019",
+      "buildNumber": "2020032201",
       "supportsTablet": false,
       "isTabletOnly": false,
       "config": {
@@ -35,7 +36,7 @@
     },
     "android": {
       "package": "ev.calculator.mobileapp",
-      "versionCode": 927122019,
+      "versionCode": 2020032201,
       "permissions": []
     }
   }

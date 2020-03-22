@@ -8,12 +8,12 @@ import Button from './Button'
 
 export default class Range extends Component {
   state = {
-    cellCapacity: '',
-    cellVoltage: '',
-    whPerMile: '',
-    cellsInSeries: '',
-    cellsInParallell: '',
-    result: null
+    cellCapacity: null,
+    cellVoltage: null,
+    whPerMile: null,
+    cellsInSeries: null,
+    cellsInParallell: null,
+    result: ''
   }
 
   calculate = () => {

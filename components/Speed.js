@@ -8,12 +8,12 @@ import Button from './Button'
 
 export default class Speed extends Component {
   state = {
-    motorPulleyTeeth: '',
-    wheelPulleyTeeth: '',
-    motorKVRating: '',
-    wheelSize: '',
-    cellsInSeries: '',
-    cellVoltage: '',
+    motorPulleyTeeth: null,
+    wheelPulleyTeeth: null,
+    motorKVRating: null,
+    wheelSize: null,
+    cellsInSeries: null,
+    cellVoltage: null,
     result: ''
   }
 
@@ -21,13 +21,13 @@ export default class Speed extends Component {
     Keyboard.dismiss()
 
     const { motorPulleyTeeth, wheelPulleyTeeth, motorKVRating, wheelSize, cellsInSeries, cellVoltage } = this.state
-    const { units } = this.props
+    const { units, driveSystem } = this.props
 
     let gearRatio
-    if (this.props.driveSystem === 'hub') gearRatio = 1
-    else gearRatio = (motorPulleyTeeth / wheelPulleyTeeth)
+    if (driveSystem === 'hub') gearRatio = 1
+    else gearRatio = (wheelPulleyTeeth / motorPulleyTeeth)
 
-    const resultKph = ((motorKVRating * cellsInSeries * cellVoltage) / (wheelPulleyTeeth / motorPulleyTeeth)) / wheelSize
+    const resultKph = ((motorKVRating * cellsInSeries * cellVoltage) / (gearRatio)) / wheelSize
     const resultMph = resultKph / 1.6
 
     if (units === 'metric' || units === 'default' || units === '' || units === undefined) {
@@ -79,11 +79,11 @@ export default class Speed extends Component {
         items={[
           {
             label: 'Li-Po/Li-Ion (4.2V)',
-            value: '4.2',
+            value: 4.2,
           },
           {
             label: 'Li-Fe (3.6V)',
-            value: '3.6',
+            value: 3.6,
           }
         ]}
       />
