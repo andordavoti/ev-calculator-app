@@ -31,7 +31,7 @@ export default class Speed extends Component {
     const resultMph = resultKph / 1.6
 
     if (units === 'metric' || units === 'default' || units === '' || units === undefined) {
-      if (!isNaN(resultKph)) {
+      if (!isNaN(resultKph) && cellVoltage !== null) {
         if (Platform.OS === 'ios') Haptics.notificationAsync('success')
         this.setState({ result: 'Estimated top speed: ' + resultKph.toFixed(2) + ' km/h' })
       }
@@ -41,7 +41,7 @@ export default class Speed extends Component {
       }
     }
     else {
-      if (!isNaN(resultMph)) {
+      if (!isNaN(resultMph) && cellVoltage !== null) {
         if (Platform.OS === 'ios') Haptics.notificationAsync('success')
         this.setState({ result: 'Estimated top speed: ' + resultMph.toFixed(2) + ' mi/h' })
       }

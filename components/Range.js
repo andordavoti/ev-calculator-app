@@ -26,7 +26,7 @@ export default class Range extends Component {
     const resultKm = resultMiles * 1.60934
 
     if (units === 'metric' || units === 'default' || units === '' || units === undefined) {
-      if (!isNaN(resultKm)) {
+      if (!isNaN(resultKm) && cellVoltage !== null && whPerMile !== null) {
         if (Platform.OS === 'ios') Haptics.notificationAsync('success')
         this.setState({ result: 'Estimated range: ' + resultKm.toFixed(2) + ' km' })
       }
