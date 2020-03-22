@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import { Text, View, StyleSheet, Keyboard } from 'react-native'
+import * as Haptics from 'expo-haptics'
+
 import Input from './Input'
 import Dropdown from './Dropdown'
 import Button from './Button'
@@ -26,15 +28,23 @@ export default class Range extends Component {
 
     if (units === 'metric' || units === 'default' || units === '' || units === undefined) {
       if (!isNaN(resultKm)) {
+        if (Platform.OS === 'ios') Haptics.notificationAsync('success')
         this.setState({ result: 'Estimated range: ' + resultKm.toFixed(2) + ' km' })
       }
-      else this.setState({ result: 'Please fill out all fields' })
+      else {
+        if (Platform.OS === 'ios') Haptics.notificationAsync('error')
+        this.setState({ result: 'Please fill out all fields' })
+      }
     }
     else {
       if (!isNaN(resultMiles)) {
+        if (Platform.OS === 'ios') Haptics.notificationAsync('success')
         this.setState({ result: 'Estimated range: ' + resultMiles.toFixed(2) + ' miles' })
       }
-      else this.setState({ result: 'Please fill out all fields' })
+      else {
+        if (Platform.OS === 'ios') Haptics.notificationAsync('error')
+        this.setState({ result: 'Please fill out all fields' })
+      }
     }
   }
 

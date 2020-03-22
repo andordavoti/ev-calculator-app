@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import { View, Text, AsyncStorage, StyleSheet } from 'react-native'
+import * as Haptics from 'expo-haptics'
+
 import Constants from 'expo-constants'
 import Dropdown from '../components/Dropdown'
 import Button from '../components/Button'
@@ -26,6 +28,8 @@ export default class Settings extends Component {
     }
 
     saveSettings = () => {
+        if (Platform.OS === 'ios') Haptics.notificationAsync('success')
+
         const { appMode, driveSystem, units } = this.state
 
         const settingsArray = {

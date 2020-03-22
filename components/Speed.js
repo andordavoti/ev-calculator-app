@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import { StyleSheet, Text, View, Keyboard } from 'react-native'
+import * as Haptics from 'expo-haptics'
+
 import Input from './Input'
 import Dropdown from './Dropdown'
 import Button from './Button'
@@ -38,15 +40,23 @@ export default class Speed extends Component {
 
     if (units === 'metric' || units === 'default' || units === '' || units === undefined) {
       if (!isNaN(resultKph)) {
+        if (Platform.OS === 'ios') Haptics.notificationAsync('success')
         this.setState({ result: 'Estimated top speed: ' + resultKph.toFixed(2) + ' km/h' })
       }
-      else this.setState({ result: 'Please fill out all fields' })
+      else {
+        if (Platform.OS === 'ios') Haptics.notificationAsync('error')
+        this.setState({ result: 'Please fill out all fields' })
+      }
     }
     else {
       if (!isNaN(resultMph)) {
+        if (Platform.OS === 'ios') Haptics.notificationAsync('success')
         this.setState({ result: 'Estimated top speed: ' + resultMph.toFixed(2) + ' mi/h' })
       }
-      else this.setState({ result: 'Please fill out all fields' })
+      else {
+        if (Platform.OS === 'ios') Haptics.notificationAsync('error')
+        this.setState({ result: 'Please fill out all fields' })
+      }
     }
   }
 
