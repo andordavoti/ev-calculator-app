@@ -48,7 +48,6 @@ export default class Range extends Component {
   }
 
   onValueChange = (value, type) => {
-    console.log(value)
     if (isNaN(value)) {
       const number = parseFloat(value.replace(",", "."))
       this.setState({ [type]: number })

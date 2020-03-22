@@ -2,28 +2,22 @@ import React, { Component } from 'react'
 import { StyleSheet, Dimensions, View, Text } from 'react-native'
 import { TextInput } from 'react-native-gesture-handler'
 
-export default class Input extends Component {
-    state = { value: '' }
-
-    onValueChange = (value) => this.props.onValueChange(value, this.props.type)
-
-    render() {
-        return <View style={styles.container}>
-            <View style={styles.textContainer}>
-                <Text style={this.props.theme === 'dark' ? styles.textDark : styles.textLight}>{this.props.text}</Text>
-            </View>
-            <View style={styles.inputContainer}>
-                <TextInput
-                    returnKeyType='done'
-                    keyboardType="decimal-pad"
-                    style={this.props.theme === 'dark' ? styles.inputDark : styles.inputLight}
-                    onChangeText={this.onValueChange}
-                    value={this.props.value}
-                    textAlign={'center'}
-                />
-            </View>
+const Input = ({ value, theme, text, onValueChange, type }) => {
+    return <View style={styles.container}>
+        <View style={styles.textContainer}>
+            <Text style={theme === 'dark' ? styles.textDark : styles.textLight}>{text}</Text>
         </View>
-    }
+        <View style={styles.inputContainer}>
+            <TextInput
+                returnKeyType='done'
+                keyboardType="decimal-pad"
+                style={theme === 'dark' ? styles.inputDark : styles.inputLight}
+                onChangeText={(value) => onValueChange(value, type)}
+                value={value}
+                textAlign={'center'}
+            />
+        </View>
+    </View>
 }
 
 const styles = StyleSheet.create({
@@ -72,3 +66,5 @@ const styles = StyleSheet.create({
         color: 'black',
     },
 })
+
+export default Input

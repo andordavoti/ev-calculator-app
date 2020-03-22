@@ -3,35 +3,18 @@ import { StyleSheet, View } from 'react-native'
 import RNPickerSelect from 'react-native-picker-select'
 import { Ionicons } from '@expo/vector-icons'
 
-export default class Dropdown extends Component {
-    state = { selectedValue: '' }
-
-    componentDidUpdate(prevProps) {
-        if (this.props.value !== prevProps.value) {
-            this.setState({ selectedValue: this.props.value })
-        }
-    }
-
-    onValueChange = (value) => {
-        this.setState({ selectedValue: value })
-        this.props.onValueChange(value, this.props.type)
-    }
-
-    render() {
-        const { items, placeholder } = this.props
-        return <View style={stylesDark.container}>
-            <RNPickerSelect
-                placeholder={placeholder}
-                items={items}
-                onValueChange={this.onValueChange}
-                value={this.state.selectedValue}
-                useNativeAndroidPickerStyle={false}
-                textInputProps={{ underlineColor: 'yellow' }}
-                Icon={() => { return <Ionicons name="md-arrow-down" size={24} color={this.props.theme === 'dark' ? 'white' : 'gray'} /> }}
-                style={this.props.theme === 'dark' ? { ...stylesDark, iconContainer: { top: 10, right: 12 } } : { ...stylesLight, iconContainer: { top: 10, right: 12 } }}
-            />
-        </View>
-    }
+const Dropdown = ({ items, placeholder, selectedValue, onValueChange, theme, type }) => {
+    return <View style={stylesDark.container}>
+        <RNPickerSelect
+            placeholder={placeholder}
+            items={items}
+            onValueChange={(value) => onValueChange(value, type)}
+            value={selectedValue}
+            useNativeAndroidPickerStyle={false}
+            Icon={() => { return <Ionicons name="md-arrow-down" size={24} color={theme === 'dark' ? 'white' : 'gray'} /> }}
+            style={theme === 'dark' ? { ...stylesDark, iconContainer: { top: 10, right: 12 } } : { ...stylesLight, iconContainer: { top: 10, right: 12 } }}
+        />
+    </View>
 }
 
 const stylesDark = StyleSheet.create({
@@ -89,3 +72,5 @@ const stylesLight = StyleSheet.create({
         paddingRight: 30,
     },
 })
+
+export default Dropdown
