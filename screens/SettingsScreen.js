@@ -11,7 +11,7 @@ import Dropdown from '../components/Dropdown'
 class SettingsScreen extends React.Component {
 
     onValueChange = (type, value) => {
-        Haptics.selectionAsync()
+        if (Platform.OS === 'ios') Haptics.selectionAsync()
 
         const { setUnits, setAppMode, setDriveSystem } = this.props
 
