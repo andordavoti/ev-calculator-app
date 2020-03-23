@@ -5,8 +5,6 @@ import { Ionicons } from '@expo/vector-icons'
 import { connect } from 'react-redux'
 
 const Dropdown = ({ items, placeholder, value, onValueChange, theme, type }) => {
-    console.log(value)
-
     return <View style={stylesDark.container}>
         <RNPickerSelect
             placeholder={placeholder}
