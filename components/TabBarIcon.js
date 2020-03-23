@@ -1,7 +1,8 @@
 import React from 'react'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
+import { connect } from 'react-redux'
 
-export default function TabBarIcon({ theme, focused, name }) {
+const TabBarIcon = ({ theme, focused, name }) => {
     if (theme === 'dark') {
         return <MaterialCommunityIcons
             name={name}
@@ -17,3 +18,9 @@ export default function TabBarIcon({ theme, focused, name }) {
         color={focused ? 'black' : '#ccc'}
     />
 }
+
+const mapStateToProps = ({ settings }) => ({
+    theme: settings.theme,
+})
+
+export default connect(mapStateToProps)(TabBarIcon)

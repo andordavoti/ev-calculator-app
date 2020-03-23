@@ -1,41 +1,143 @@
 import React from 'react'
-import { View, AsyncStorage, StyleSheet } from 'react-native'
-import Speed from '../components/Speed'
+import { StyleSheet, Text, View, Keyboard } from 'react-native'
+import * as Haptics from 'expo-haptics'
+import { connect } from 'react-redux'
 
-export default class SpeedScreen extends React.Component {
+import Input from '../components/Input'
+import Dropdown from '../components/Dropdown'
+import Button from '../components/Button'
+
+class SpeedScreen extends React.Component {
+
     state = {
-        appMode: '',
-        driveSystem: '',
-        units: '',
+        motorPulleyTeeth: null,
+        wheelPulleyTeeth: null,
+        motorKVRating: null,
+        wheelSize: null,
+        cellsInSeries: null,
+        cellVoltage: null,
+        result: ''
     }
 
-    componentDidMount() {
-        this._navListener = this.props.navigation.addListener('didFocus', () => this.getUserSettings())
-    }
+    calculate = () => {
+        Keyboard.dismiss()
 
-    getUserSettings = async () => {
-        const settingsArray = await AsyncStorage.getItem('settingsArray')
-        const data = JSON.parse(settingsArray)
+        const { motorPulleyTeeth, wheelPulleyTeeth, motorKVRating, wheelSize, cellsInSeries, cellVoltage } = this.state
+        const { units, driveSystem } = this.props
 
-        if (data !== null) {
-            this.setState({
-                appMode: data.appMode,
-                driveSystem: data.driveSystem,
-                units: data.units,
-            })
+        let gearRatio
+        if (driveSystem === 'hub') gearRatio = 1
+        else gearRatio = (wheelPulleyTeeth / motorPulleyTeeth)
+
+        const resultKph = ((motorKVRating * cellsInSeries * cellVoltage) / (gearRatio)) / wheelSize
+        const resultMph = resultKph / 1.6
+
+        if (units === 'metric') {
+            if (!isNaN(resultKph) && cellVoltage !== null) {
+                if (Platform.OS === 'ios') Haptics.notificationAsync('success')
+                this.setState({ result: 'Estimated top speed: ' + resultKph.toFixed(2) + ' km/h' })
+            }
+            else {
+                if (Platform.OS === 'ios') Haptics.notificationAsync('error')
+                this.setState({ result: 'Please fill out all fields' })
+            }
         }
-        else console.log('data is null')
+        else {
+            if (!isNaN(resultMph) && cellVoltage !== null) {
+                if (Platform.OS === 'ios') Haptics.notificationAsync('success')
+                this.setState({ result: 'Estimated top speed: ' + resultMph.toFixed(2) + ' mi/h' })
+            }
+            else {
+                if (Platform.OS === 'ios') Haptics.notificationAsync('error')
+                this.setState({ result: 'Please fill out all fields' })
+            }
+        }
+    }
+
+    onValueChange = (value, type) => {
+        if (isNaN(value)) {
+            const number = parseFloat(value.replace(",", "."))
+            this.setState({ [type]: number })
+        }
+        else this.setState({ [type]: value })
+    }
+
+    appMode = () => {
+        const { appMode } = this.props
+        if (appMode === 'advanced') {
+            return <Input
+                text="Max Cell Voltage:"
+                onValueChange={this.onValueChange}
+                type="cellVoltage"
+            />
+        }
+        return <View style={styles.container}>
+            <Dropdown
+                onValueChange={this.onValueChange}
+                type="cellVoltage"
+                placeholder={{ label: 'Battery type', value: null, color: '#9EA0A4' }}
+                items={[
+                    {
+                        label: 'Li-Po/Li-Ion (4.2V)',
+                        value: 4.2,
+                    },
+                    {
+                        label: 'Li-Fe (3.6V)',
+                        value: 3.6,
+                    }
+                ]}
+            />
+        </View>
+    }
+
+    driveSystem = () => {
+        const { driveSystem } = this.props
+        if (driveSystem === 'hub') return <View></View>
+        else {
+            return <View style={styles.container}>
+                <Input
+                    text="Motor Pulley Teeth:"
+                    onValueChange={this.onValueChange}
+                    type="motorPulleyTeeth"
+                />
+                <Input
+                    text="Wheel Pulley Teeth:"
+                    onValueChange={this.onValueChange}
+                    type="wheelPulleyTeeth"
+                />
+            </View>
+        }
     }
 
     render() {
-        let theme = this.props.screenProps
+        let theme = 'dark'
         return <View style={theme === 'dark' ? styles.containerDark : styles.containerLight}>
-            <Speed
-                theme={theme}
-                appMode={this.state.appMode}
-                units={this.state.units}
-                driveSystem={this.state.driveSystem}
-            />
+            <View style={styles.container}>
+                {this.driveSystem()}
+                <Input
+                    text="Motor KV Rating:"
+                    onValueChange={this.onValueChange}
+                    type="motorKVRating"
+                />
+                <Input
+                    text="Wheel Size (mm):"
+                    onValueChange={this.onValueChange}
+                    type="wheelSize"
+                />
+                <Input
+                    text="Cells in Series:"
+                    onValueChange={this.onValueChange}
+                    type="cellsInSeries"
+                />
+                {this.appMode()}
+                <View style={styles.buttonContainer}>
+                    <Button
+                        onPress={this.calculate}
+                        text="Calculate"
+                    />
+                </View>
+                <Text style={theme === 'dark' ? styles.resultDark : styles.resultLight}>{this.state.result}</Text>
+            </View>
         </View>
     }
 }
@@ -53,4 +155,32 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: '#1c1c1c'
     },
+    container: {
+        alignItems: 'center'
+    },
+    buttonContainer: {
+        paddingTop: 10,
+        alignItems: 'center',
+    },
+    resultLight: {
+        paddingTop: 20,
+        fontSize: 18,
+        textAlign: 'center',
+        color: 'black'
+    },
+    resultDark: {
+        paddingTop: 20,
+        fontSize: 18,
+        textAlign: 'center',
+        color: 'white'
+    }
 })
+
+const mapStateToProps = ({ settings }) => ({
+    theme: settings.theme,
+    units: settings.units,
+    appMode: settings.appMode,
+    driveSystem: settings.driveSystem
+})
+
+export default connect(mapStateToProps)(SpeedScreen)

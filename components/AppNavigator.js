@@ -53,7 +53,7 @@ const AppNavigator = ({ theme, setCurrentTheme }) => {
             activeTintColor: theme === 'dark' ? 'white' : 'black',
             inactiveTintColor: theme === 'dark' ? 'gray' : '#ccc',
         },
-        tabBarIcon: ({ focused }) => <TabBarIcon theme={theme} focused={focused} name='speedometer' />,
+        tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name='speedometer' />,
     }
 
     RangeScreenStack.navigationOptions = {
@@ -62,7 +62,7 @@ const AppNavigator = ({ theme, setCurrentTheme }) => {
             activeTintColor: theme === 'dark' ? 'white' : 'black',
             inactiveTintColor: theme === 'dark' ? 'gray' : '#ccc',
         },
-        tabBarIcon: ({ focused }) => <TabBarIcon theme={theme} focused={focused} name='fuel' />,
+        tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name='fuel' />,
     }
 
     SettingsScreenStack.navigationOptions = {
@@ -71,16 +71,16 @@ const AppNavigator = ({ theme, setCurrentTheme }) => {
             activeTintColor: theme === 'dark' ? 'white' : 'black',
             inactiveTintColor: theme === 'dark' ? 'gray' : '#ccc',
         },
-        tabBarIcon: ({ focused }) => <TabBarIcon theme={theme} focused={focused} name='settings' />,
+        tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name='settings' />,
     }
     return <AppearanceProvider>
         {Platform.OS === 'ios' && <StatusBar barStyle={theme === 'dark' ? 'light-content' : 'dark-content'} />}
-        <Navigation theme={theme} screenProps={theme} />
+        <Navigation theme={theme} />
     </AppearanceProvider>
 }
 
-const mapStateToProps = state => ({
-    theme: state.settings.theme
+const mapStateToProps = ({ settings }) => ({
+    theme: settings.theme,
 })
 
 const mapDispatchToProps = dispatch => ({

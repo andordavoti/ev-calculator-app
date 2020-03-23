@@ -1,7 +1,8 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import RNPickerSelect from 'react-native-picker-select'
 import { Ionicons } from '@expo/vector-icons'
+import { connect } from 'react-redux'
 
 const Dropdown = ({ items, placeholder, selectedValue, onValueChange, theme, type }) => {
     return <View style={stylesDark.container}>
@@ -73,4 +74,8 @@ const stylesLight = StyleSheet.create({
     },
 })
 
-export default Dropdown
+const mapStateToProps = ({ settings }) => ({
+    theme: settings.theme,
+})
+
+export default connect(mapStateToProps)(Dropdown)

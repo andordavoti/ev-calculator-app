@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { StyleSheet, Dimensions, View, Text } from 'react-native'
 import { TextInput } from 'react-native-gesture-handler'
+import { connect } from 'react-redux'
 
 const Input = ({ value, theme, text, onValueChange, type }) => {
     return <View style={styles.container}>
@@ -67,4 +68,8 @@ const styles = StyleSheet.create({
     },
 })
 
-export default Input
+const mapStateToProps = ({ settings }) => ({
+    theme: settings.theme,
+})
+
+export default connect(mapStateToProps)(Input)

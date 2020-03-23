@@ -43,11 +43,10 @@ export default class Settings extends Component {
     onValueChange = (value, type) => this.setState({ [type]: value })
 
     render() {
-        let theme = this.props.theme
+        const { theme } = this.props
         return <View style={styles.container}>
             <Text style={theme === 'dark' ? styles.textDark : styles.textLight}>Select App Mode:</Text>
             <Dropdown
-                theme={theme}
                 value={this.state.appMode}
                 onValueChange={this.onValueChange}
                 type="appMode"
@@ -66,7 +65,6 @@ export default class Settings extends Component {
 
             <Text style={theme === 'dark' ? styles.textDark : styles.textLight}>Select Drive System:</Text>
             <Dropdown
-                theme={theme}
                 value={this.state.driveSystem}
                 onValueChange={this.onValueChange}
                 type="driveSystem"
@@ -85,7 +83,6 @@ export default class Settings extends Component {
 
             <Text style={theme === 'dark' ? styles.textDark : styles.textLight}>Select Units of Measurement:</Text>
             <Dropdown
-                theme={theme}
                 value={this.state.units}
                 onValueChange={this.onValueChange}
                 type="units"
@@ -104,7 +101,6 @@ export default class Settings extends Component {
 
             <View style={styles.buttonContainer}>
                 <Button
-                    theme={theme}
                     text="Save Settings"
                     onPress={this.saveSettings}
                 />

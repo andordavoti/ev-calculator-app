@@ -1,5 +1,6 @@
 import React from 'react'
 import { Text, TouchableOpacity } from 'react-native'
+import { connect } from 'react-redux'
 
 const Button = ({ onPress, text, theme }) => {
     return <TouchableOpacity onPress={onPress} style={theme === 'dark' ? styles.buttonDark : styles.buttonLight}>
@@ -36,4 +37,8 @@ const styles = {
     }
 }
 
-export default Button
+const mapStateToProps = ({ settings }) => ({
+    theme: settings.theme,
+})
+
+export default connect(mapStateToProps)(Button)
