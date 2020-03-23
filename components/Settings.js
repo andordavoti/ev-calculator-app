@@ -51,7 +51,7 @@ export default class Settings extends Component {
                 value={this.state.appMode}
                 onValueChange={this.onValueChange}
                 type="appMode"
-                placeholder={{ label: 'Simple or Advanced Mode', value: 'default', color: '#9EA0A4' }}
+                placeholder={{ label: 'Simple or Advanced Mode', value: 'simple', color: '#9EA0A4' }}
                 items={[
                     {
                         label: 'Simple Mode',
@@ -70,7 +70,7 @@ export default class Settings extends Component {
                 value={this.state.driveSystem}
                 onValueChange={this.onValueChange}
                 type="driveSystem"
-                placeholder={{ label: 'Belt Drive or Hub Drive', value: 'default', color: '#9EA0A4' }}
+                placeholder={{ label: 'Belt Drive or Hub Drive', value: 'belt', color: '#9EA0A4' }}
                 items={[
                     {
                         label: 'Belt Drive',
@@ -89,7 +89,7 @@ export default class Settings extends Component {
                 value={this.state.units}
                 onValueChange={this.onValueChange}
                 type="units"
-                placeholder={{ label: 'Select Units', value: 'default', color: '#9EA0A4' }}
+                placeholder={{ label: 'Select Units', value: 'metric', color: '#9EA0A4' }}
                 items={[
                     {
                         label: 'Metric',
