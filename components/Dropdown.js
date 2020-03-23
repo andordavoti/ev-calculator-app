@@ -7,17 +7,17 @@ import { connect } from 'react-redux'
 const Dropdown = ({ items, placeholder, value, onValueChange, theme, type }) => {
     return <View style={stylesDark.container}>
         <RNPickerSelect
+            Icon={() => { return <Ionicons name='md-arrow-down' size={24} color={theme === 'dark' ? 'white' : 'gray'} /> }}
+            style={theme === 'dark' ? { ...stylesDark, iconContainer: { top: 10, right: 12 } } : { ...stylesLight, iconContainer: { top: 10, right: 12 } }}
+            useNativeAndroidPickerStyle={false}
             placeholder={placeholder}
             items={items}
+            value={value}
             onValueChange={(value) => {
                 if (value !== null) {
-                    onValueChange(value, type)
+                    onValueChange(type, value)
                 }
             }}
-            value={value}
-            useNativeAndroidPickerStyle={false}
-            Icon={() => { return <Ionicons name="md-arrow-down" size={24} color={theme === 'dark' ? 'white' : 'gray'} /> }}
-            style={theme === 'dark' ? { ...stylesDark, iconContainer: { top: 10, right: 12 } } : { ...stylesLight, iconContainer: { top: 10, right: 12 } }}
         />
     </View>
 }

@@ -10,7 +10,9 @@ import Dropdown from '../components/Dropdown'
 
 class SettingsScreen extends React.Component {
 
-    onValueChange = (value, type) => {
+    onValueChange = (type, value) => {
+        Haptics.selectionAsync()
+
         const { setUnits, setAppMode, setDriveSystem } = this.props
 
         switch (type) {
@@ -36,7 +38,7 @@ class SettingsScreen extends React.Component {
                 <Dropdown
                     value={appMode}
                     onValueChange={this.onValueChange}
-                    type="setAppMode"
+                    type='setAppMode'
                     placeholder={{ label: 'Simple or Advanced Mode', value: null, color: '#9EA0A4' }}
                     items={[
                         {
@@ -54,7 +56,7 @@ class SettingsScreen extends React.Component {
                 <Dropdown
                     value={driveSystem}
                     onValueChange={this.onValueChange}
-                    type="setDriveSystem"
+                    type='setDriveSystem'
                     placeholder={{ label: 'Belt Drive or Hub Drive', value: null, color: '#9EA0A4' }}
                     items={[
                         {
@@ -72,7 +74,7 @@ class SettingsScreen extends React.Component {
                 <Dropdown
                     value={units}
                     onValueChange={this.onValueChange}
-                    type="setUnits"
+                    type='setUnits'
                     placeholder={{ label: 'Select Units', value: null, color: '#9EA0A4' }}
                     items={[
                         {

@@ -19,62 +19,65 @@ class SpeedScreen extends React.Component {
         result: ''
     }
 
+    onValueChange = (type, value) => this.setState({ [type]: value })
+
     calculate = () => {
         Keyboard.dismiss()
-
-        const { motorPulleyTeeth, wheelPulleyTeeth, motorKVRating, wheelSize, cellsInSeries, cellVoltage } = this.state
         const { units, driveSystem } = this.props
+        const { motorPulleyTeeth, wheelPulleyTeeth, motorKVRating, wheelSize, cellsInSeries, cellVoltage } = this.state
+
+        const mpt = parseFloat(motorPulleyTeeth),
+            wpt = parseFloat(wheelPulleyTeeth),
+            mkr = parseFloat(motorKVRating),
+            ws = parseFloat(wheelSize),
+            cis = parseFloat(cellsInSeries),
+            cv = parseFloat(cellVoltage)
 
         let gearRatio
         if (driveSystem === 'hub') gearRatio = 1
-        else gearRatio = (wheelPulleyTeeth / motorPulleyTeeth)
+        else gearRatio = (wpt / mpt)
 
-        const resultKph = ((motorKVRating * cellsInSeries * cellVoltage) / (gearRatio)) / wheelSize
+        const resultKph = ((mkr * cis * cv) / (gearRatio)) / ws
         const resultMph = resultKph / 1.6
 
         if (units === 'metric') {
-            if (!isNaN(resultKph) && cellVoltage !== null) {
+            if (!isNaN(resultKph)) {
                 if (Platform.OS === 'ios') Haptics.notificationAsync('success')
                 this.setState({ result: 'Estimated top speed: ' + resultKph.toFixed(2) + ' km/h' })
-            }
-            else {
+            } else {
                 if (Platform.OS === 'ios') Haptics.notificationAsync('error')
                 this.setState({ result: 'Please fill out all fields' })
             }
         }
+
         else {
-            if (!isNaN(resultMph) && cellVoltage !== null) {
+            if (!isNaN(resultMph)) {
                 if (Platform.OS === 'ios') Haptics.notificationAsync('success')
                 this.setState({ result: 'Estimated top speed: ' + resultMph.toFixed(2) + ' mi/h' })
-            }
-            else {
+            } else {
                 if (Platform.OS === 'ios') Haptics.notificationAsync('error')
                 this.setState({ result: 'Please fill out all fields' })
             }
         }
-    }
-
-    onValueChange = (value, type) => {
-        if (isNaN(value)) {
-            const number = parseFloat(value.replace(",", "."))
-            this.setState({ [type]: number })
-        }
-        else this.setState({ [type]: value })
     }
 
     appMode = () => {
         const { appMode } = this.props
+        const { cellVoltage } = this.state
+
         if (appMode === 'advanced') {
             return <Input
-                text="Max Cell Voltage:"
+                value={cellVoltage}
+                text='Max Cell Voltage:'
                 onValueChange={this.onValueChange}
-                type="cellVoltage"
+                type='cellVoltage'
             />
         }
         return <View style={styles.container}>
             <Dropdown
+                value={cellVoltage}
                 onValueChange={this.onValueChange}
-                type="cellVoltage"
+                type='cellVoltage'
                 placeholder={{ label: 'Battery type', value: null, color: '#9EA0A4' }}
                 items={[
                     {
@@ -92,48 +95,57 @@ class SpeedScreen extends React.Component {
 
     driveSystem = () => {
         const { driveSystem } = this.props
+        const { motorPulleyTeeth, wheelPulleyTeeth } = this.state
+
         if (driveSystem === 'hub') return <View></View>
         else {
             return <View style={styles.container}>
                 <Input
-                    text="Motor Pulley Teeth:"
+                    value={motorPulleyTeeth}
+                    text='Motor Pulley Teeth:'
                     onValueChange={this.onValueChange}
-                    type="motorPulleyTeeth"
+                    type='motorPulleyTeeth'
                 />
                 <Input
-                    text="Wheel Pulley Teeth:"
+                    value={wheelPulleyTeeth}
+                    text='Wheel Pulley Teeth:'
                     onValueChange={this.onValueChange}
-                    type="wheelPulleyTeeth"
+                    type='wheelPulleyTeeth'
                 />
             </View>
         }
     }
 
     render() {
-        let theme = 'dark'
+        const { theme } = this.props
+        const { motorKVRating, wheelSize, cellsInSeries } = this.state
+
         return <View style={theme === 'dark' ? styles.containerDark : styles.containerLight}>
             <View style={styles.container}>
                 {this.driveSystem()}
                 <Input
-                    text="Motor KV Rating:"
+                    value={motorKVRating}
+                    text='Motor KV Rating:'
                     onValueChange={this.onValueChange}
-                    type="motorKVRating"
+                    type='motorKVRating'
                 />
                 <Input
-                    text="Wheel Size (mm):"
+                    value={wheelSize}
+                    text='Wheel Size (mm):'
                     onValueChange={this.onValueChange}
-                    type="wheelSize"
+                    type='wheelSize'
                 />
                 <Input
-                    text="Cells in Series:"
+                    value={cellsInSeries}
+                    text='Cells in Series:'
                     onValueChange={this.onValueChange}
-                    type="cellsInSeries"
+                    type='cellsInSeries'
                 />
                 {this.appMode()}
                 <View style={styles.buttonContainer}>
                     <Button
                         onPress={this.calculate}
-                        text="Calculate"
+                        text='Calculate'
                     />
                 </View>
                 <Text style={theme === 'dark' ? styles.resultDark : styles.resultLight}>{this.state.result}</Text>

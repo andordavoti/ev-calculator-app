@@ -18,21 +18,27 @@ class RangeScreen extends React.Component {
         result: ''
     }
 
+    onValueChange = (type, value) => this.setState({ [type]: value })
+
     calculate = () => {
         Keyboard.dismiss()
-
-        const { cellCapacity, cellVoltage, whPerMile, cellsInSeries, cellsInParallell } = this.state
         const { units } = this.props
+        const { cellCapacity, cellVoltage, whPerMile, cellsInSeries, cellsInParallell } = this.state
 
-        const resultMiles = cellsInParallell * cellCapacity * cellVoltage * cellsInSeries / whPerMile
+        const cc = parseFloat(cellCapacity),
+            cv = parseFloat(cellVoltage),
+            wpm = parseFloat(whPerMile),
+            cis = parseFloat(cellsInSeries),
+            cip = parseFloat(cellsInParallell)
+
+        const resultMiles = cip * cis * cc * cv / wpm
         const resultKm = resultMiles * 1.60934
 
         if (units === 'metric') {
-            if (!isNaN(resultKm) && cellVoltage !== null && whPerMile !== null) {
+            if (!isNaN(resultKm)) {
                 if (Platform.OS === 'ios') Haptics.notificationAsync('success')
                 this.setState({ result: 'Estimated range: ' + resultKm.toFixed(2) + ' km' })
-            }
-            else {
+            } else {
                 if (Platform.OS === 'ios') Haptics.notificationAsync('error')
                 this.setState({ result: 'Please fill out all fields' })
             }
@@ -41,36 +47,30 @@ class RangeScreen extends React.Component {
             if (!isNaN(resultMiles)) {
                 if (Platform.OS === 'ios') Haptics.notificationAsync('success')
                 this.setState({ result: 'Estimated range: ' + resultMiles.toFixed(2) + ' miles' })
-            }
-            else {
+            } else {
                 if (Platform.OS === 'ios') Haptics.notificationAsync('error')
                 this.setState({ result: 'Please fill out all fields' })
             }
         }
     }
 
-    onValueChange = (value, type) => {
-        if (isNaN(value)) {
-            const number = parseFloat(value.replace(",", "."))
-            this.setState({ [type]: number })
-        }
-        else this.setState({ [type]: value })
-    }
-
     appMode = () => {
         const { appMode } = this.props
+        const { cellVoltage, whPerMile } = this.state
 
         if (appMode === 'advanced') {
             return <View style={styles.container}>
                 <Input
-                    text="Max Cell Voltage:"
+                    value={cellVoltage}
+                    text='Max Cell Voltage:'
                     onValueChange={this.onValueChange}
-                    type="cellVoltage"
+                    type='cellVoltage'
                 />
                 <Input
-                    text="Wh per mile:"
+                    value={whPerMile}
+                    text='Wh per mile:'
                     onValueChange={this.onValueChange}
-                    type="whPerMile"
+                    type='whPerMile'
                 />
             </View>
         }
@@ -78,8 +78,9 @@ class RangeScreen extends React.Component {
 
             return <View style={styles.container}>
                 <Dropdown
+                    value={cellVoltage}
                     onValueChange={this.onValueChange}
-                    type="cellVoltage"
+                    type='cellVoltage'
                     placeholder={{ label: 'Battery type', value: null, color: '#9EA0A4' }}
                     items={[
                         {
@@ -94,8 +95,9 @@ class RangeScreen extends React.Component {
                 />
 
                 <Dropdown
+                    value={whPerMile}
                     onValueChange={this.onValueChange}
-                    type="whPerMile"
+                    type='whPerMile'
                     placeholder={{ label: 'Select setup', value: null, color: '#9EA0A4' }}
                     items={[
                         {
@@ -122,26 +124,30 @@ class RangeScreen extends React.Component {
 
     render() {
         const { theme } = this.props
+        const { cellCapacity, cellsInSeries, cellsInParallell } = this.state
 
         return <View style={theme === 'dark' ? styles.containerDark : styles.containerLight}>
             <View style={styles.container}>
                 <View style={styles.InputContainer}>
                     <Input
-                        text="Cells in Series:"
+                        value={cellsInSeries}
+                        text='Cells in Series:'
                         onValueChange={this.onValueChange}
-                        type="cellsInSeries"
+                        type='cellsInSeries'
                     />
 
                     <Input
-                        text="Cells in Parallell:"
+                        value={cellsInParallell}
+                        text='Cells in Parallell:'
                         onValueChange={this.onValueChange}
-                        type="cellsInParallell"
+                        type='cellsInParallell'
                     />
 
                     <Input
-                        text="Cell Capacity (Ah):"
+                        value={cellCapacity}
+                        text='Cell Capacity (Ah):'
                         onValueChange={this.onValueChange}
-                        type="cellCapacity"
+                        type='cellCapacity'
                     />
                 </View>
 
@@ -150,7 +156,7 @@ class RangeScreen extends React.Component {
                 <View style={styles.buttonContainer}>
                     <Button
                         onPress={this.calculate}
-                        text="Calculate"
+                        text='Calculate'
                     />
                 </View>
 

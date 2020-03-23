@@ -11,9 +11,9 @@ const Input = ({ value, theme, text, onValueChange, type }) => {
         <View style={styles.inputContainer}>
             <TextInput
                 returnKeyType='done'
-                keyboardType="decimal-pad"
+                keyboardType='decimal-pad'
                 style={theme === 'dark' ? styles.inputDark : styles.inputLight}
-                onChangeText={(value) => onValueChange(value, type)}
+                onChangeText={(value) => onValueChange(type, value.replace(',', '.'))}
                 value={value}
                 textAlign={'center'}
             />
