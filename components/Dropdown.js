@@ -4,13 +4,19 @@ import RNPickerSelect from 'react-native-picker-select'
 import { Ionicons } from '@expo/vector-icons'
 import { connect } from 'react-redux'
 
-const Dropdown = ({ items, placeholder, selectedValue, onValueChange, theme, type }) => {
+const Dropdown = ({ items, placeholder, value, onValueChange, theme, type }) => {
+    console.log(value)
+
     return <View style={stylesDark.container}>
         <RNPickerSelect
             placeholder={placeholder}
             items={items}
-            onValueChange={(value) => onValueChange(value, type)}
-            value={selectedValue}
+            onValueChange={(value) => {
+                if (value !== null) {
+                    onValueChange(value, type)
+                }
+            }}
+            value={value}
             useNativeAndroidPickerStyle={false}
             Icon={() => { return <Ionicons name="md-arrow-down" size={24} color={theme === 'dark' ? 'white' : 'gray'} /> }}
             style={theme === 'dark' ? { ...stylesDark, iconContainer: { top: 10, right: 12 } } : { ...stylesLight, iconContainer: { top: 10, right: 12 } }}
