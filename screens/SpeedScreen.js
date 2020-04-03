@@ -188,11 +188,12 @@ const styles = StyleSheet.create({
     }
 })
 
-const mapStateToProps = ({ settings: { theme, units, appMode, driveSystem } }) => ({
+const mapStateToProps = ({ settings: { theme, units, appMode, driveSystem, hapticsEnabled } }) => ({
     theme,
     units,
     appMode,
-    driveSystem
+    driveSystem,
+    hapticsEnabled
 })
 
 export default connect(mapStateToProps)(SpeedScreen)
