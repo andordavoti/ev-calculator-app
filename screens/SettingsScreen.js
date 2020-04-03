@@ -1,10 +1,11 @@
 import React from 'react'
-import { View, Text, StyleSheet } from 'react-native'
+import { View, Text, StyleSheet, Platform } from 'react-native'
 import * as Haptics from 'expo-haptics'
 import Constants from 'expo-constants'
 import { connect } from 'react-redux'
+import { Switch } from 'react-native-paper';
 
-import { setUnits, setAppMode, setDriveSystem, useSystemTheme, setCurrentTheme } from '../redux/settings/settings.action'
+import { setUnits, setAppMode, setDriveSystem, useSystemTheme, setCurrentTheme, useHaptics } from '../redux/settings/settings.action'
 
 import Dropdown from '../components/Dropdown'
 
@@ -53,7 +54,7 @@ class SettingsScreen extends React.Component {
     }
 
     render() {
-        const { theme, appMode, driveSystem, units } = this.props
+        const { theme, appMode, driveSystem, units, hapticsEnabled, useHaptics } = this.props
         return <View style={theme === 'dark' ? styles.containerDark : styles.containerLight}>
             <View style={styles.container}>
                 <Text style={theme === 'dark' ? styles.textDark : styles.textLight}>Select App Mode:</Text>
@@ -132,6 +133,20 @@ class SettingsScreen extends React.Component {
                     ]}
                 />
 
+                {
+                    Platform.OS === 'ios' ?
+                        <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+                            <Text style={theme === 'dark' ? styles.textDark : styles.textLight}>Haptics: </Text>
+                            <Switch
+                                color='grey'
+                                value={hapticsEnabled}
+                                onValueChange={() => useHaptics(!hapticsEnabled)
+                                }
+                            />
+                        </View>
+                        : null
+                }
+
                 <Text style={theme === 'dark' ? styles.textVersionDark : styles.textVersionLight}>Version: {Constants.manifest.version}</Text>
             </View>
         </View>
@@ -188,9 +203,10 @@ const styles = StyleSheet.create({
 const mapStateToProps = ({ settings }) => ({
     theme: settings.theme,
     systemTheme: settings.systemTheme,
+    hapticsEnabled: settings.hapticsEnabled,
     units: settings.units,
     appMode: settings.appMode,
     driveSystem: settings.driveSystem
 })
 
-export default connect(mapStateToProps, { setUnits, setAppMode, setDriveSystem, useSystemTheme, setCurrentTheme })(SettingsScreen)
+export default connect(mapStateToProps, { setUnits, setAppMode, setDriveSystem, useSystemTheme, setCurrentTheme, useHaptics })(SettingsScreen)
