@@ -21,7 +21,6 @@ class SettingsScreen extends React.Component {
 
     }
 
-
     onValueChange = (type, value) => {
         const { setUnits, setAppMode, setDriveSystem, useSystemTheme, setCurrentTheme, hapticsEnabled } = this.props
 
@@ -135,9 +134,10 @@ class SettingsScreen extends React.Component {
 
                 {
                     Platform.OS === 'ios' ?
-                        <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+                        <View>
                             <Text style={theme === 'dark' ? styles.textDark : styles.textLight}>Haptics: </Text>
                             <Switch
+                                style={{ alignSelf: 'center', marginBottom: 20 }}
                                 color='grey'
                                 value={hapticsEnabled}
                                 onValueChange={() => useHaptics(!hapticsEnabled)
@@ -180,17 +180,17 @@ const styles = StyleSheet.create({
         fontSize: 18,
         paddingBottom: 10
     },
-    textVersionDark: {
-        color: 'white',
-        textAlign: 'center',
-        fontSize: 18,
-        paddingTop: 10
-    },
     textLight: {
         color: 'black',
         textAlign: 'center',
         fontSize: 18,
         paddingBottom: 10
+    },
+    textVersionDark: {
+        color: 'white',
+        textAlign: 'center',
+        fontSize: 18,
+        paddingTop: 10
     },
     textVersionLight: {
         color: 'black',
