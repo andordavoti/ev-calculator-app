@@ -2,6 +2,8 @@ import { SettingsActionTypes } from './settings.types'
 
 const INITIAL_STATE = {
     theme: 'light',
+    systemTheme: true,
+    hapticsEnabled: true,
     units: 'metric',
     appMode: 'simple',
     driveSystem: 'belt'
@@ -13,6 +15,16 @@ const settingsReducer = (state = INITIAL_STATE, action) => {
             return {
                 ...state,
                 theme: action.payload
+            }
+        case SettingsActionTypes.USE_SYSTEM_THEME:
+            return {
+                ...state,
+                systemTheme: action.payload
+            }
+        case SettingsActionTypes.USE_HAPTICS:
+            return {
+                ...state,
+                hapticsEnabled: action.payload
             }
         case SettingsActionTypes.SET_UNITS:
             return {
