@@ -4,16 +4,27 @@ import * as Haptics from 'expo-haptics'
 import Constants from 'expo-constants'
 import { connect } from 'react-redux'
 
-import { setUnits, setAppMode, setDriveSystem } from '../redux/settings/settings.action'
+import { setUnits, setAppMode, setDriveSystem, useSystemTheme, setCurrentTheme } from '../redux/settings/settings.action'
 
 import Dropdown from '../components/Dropdown'
 
 class SettingsScreen extends React.Component {
 
+    state = { selectedTheme: 'system' }
+
+    componentDidMount() {
+        const { systemTheme, theme } = this.props
+
+        if (systemTheme) this.setState({ selectedTheme: 'system' })
+        else this.setState({ selectedTheme: theme })
+
+    }
+
+
     onValueChange = (type, value) => {
         if (Platform.OS === 'ios') Haptics.selectionAsync()
 
-        const { setUnits, setAppMode, setDriveSystem } = this.props
+        const { setUnits, setAppMode, setDriveSystem, useSystemTheme, setCurrentTheme } = this.props
 
         switch (type) {
             case 'setAppMode':
@@ -24,6 +35,17 @@ class SettingsScreen extends React.Component {
                 break
             case 'setUnits':
                 setUnits(value)
+                break
+            case 'theme':
+                if (value === 'system') {
+                    useSystemTheme(true)
+                    this.setState({ selectedTheme: 'system' })
+                }
+                if (value === 'light' || value === 'dark') {
+                    this.setState({ selectedTheme: value })
+                    setCurrentTheme(value)
+                    useSystemTheme(false)
+                }
                 break
             default:
                 break
@@ -88,6 +110,28 @@ class SettingsScreen extends React.Component {
                     ]}
                 />
 
+                <Text style={theme === 'dark' ? styles.textDark : styles.textLight}>App theme:</Text>
+                <Dropdown
+                    value={this.state.selectedTheme}
+                    onValueChange={this.onValueChange}
+                    type='theme'
+                    placeholder={{ label: 'Select Theme', value: null, color: '#9EA0A4' }}
+                    items={[
+                        {
+                            label: 'System',
+                            value: 'system',
+                        },
+                        {
+                            label: 'Light',
+                            value: 'light',
+                        },
+                        {
+                            label: 'Dark',
+                            value: 'dark',
+                        }
+                    ]}
+                />
+
                 <Text style={theme === 'dark' ? styles.textVersionDark : styles.textVersionLight}>Version: {Constants.manifest.version}</Text>
             </View>
         </View>
@@ -143,15 +187,10 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = ({ settings }) => ({
     theme: settings.theme,
+    systemTheme: settings.systemTheme,
     units: settings.units,
     appMode: settings.appMode,
     driveSystem: settings.driveSystem
 })
 
-const mapDispatchToProps = dispatch => ({
-    setUnits: units => dispatch(setUnits(units)),
-    setAppMode: appMode => dispatch(setAppMode(appMode)),
-    setDriveSystem: driveSystem => dispatch(setDriveSystem(driveSystem)),
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(SettingsScreen)
+export default connect(mapStateToProps, { setUnits, setAppMode, setDriveSystem, useSystemTheme, setCurrentTheme })(SettingsScreen)

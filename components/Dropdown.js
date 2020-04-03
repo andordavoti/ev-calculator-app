@@ -14,9 +14,7 @@ const Dropdown = ({ items, placeholder, value, onValueChange, theme, type }) => 
             items={items}
             value={value}
             onValueChange={(value) => {
-                if (value !== null) {
-                    onValueChange(type, value)
-                }
+                if (value !== null) onValueChange(type, value)
             }}
         />
     </View>

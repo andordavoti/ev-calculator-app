@@ -43,9 +43,9 @@ const SpeedScreenStack = createStackNavigator({ SpeedScreen }),
     Tabs = createBottomTabNavigator({ SpeedScreenStack, RangeScreenStack, SettingsScreenStack }),
     Navigation = createAppContainer(Tabs)
 
-const AppNavigator = ({ theme, setCurrentTheme }) => {
+const AppNavigator = ({ theme, setCurrentTheme, systemTheme }) => {
     const deviceTheme = useColorScheme()
-    if (deviceTheme === 'light' || deviceTheme === 'dark') setCurrentTheme(deviceTheme)
+    if ((deviceTheme === 'light' || deviceTheme === 'dark') && systemTheme) setCurrentTheme(deviceTheme)
 
     SpeedScreenStack.navigationOptions = {
         tabBarLabel: 'Speed',
@@ -81,6 +81,7 @@ const AppNavigator = ({ theme, setCurrentTheme }) => {
 
 const mapStateToProps = ({ settings }) => ({
     theme: settings.theme,
+    systemTheme: settings.systemTheme,
 })
 
 const mapDispatchToProps = dispatch => ({
