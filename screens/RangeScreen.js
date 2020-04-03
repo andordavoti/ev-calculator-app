@@ -202,10 +202,11 @@ const styles = StyleSheet.create({
     }
 })
 
-const mapStateToProps = ({ settings }) => ({
-    theme: settings.theme,
-    units: settings.units,
-    appMode: settings.appMode,
+const mapStateToProps = ({ settings: { theme, units, appMode, hapticsEnabled } }) => ({
+    theme,
+    units,
+    appMode,
+    hapticsEnabled
 })
 
 export default connect(mapStateToProps)(RangeScreen)

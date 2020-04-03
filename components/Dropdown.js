@@ -76,8 +76,7 @@ const stylesLight = StyleSheet.create({
     },
 })
 
-const mapStateToProps = ({ settings }) => ({
-    theme: settings.theme,
-})
+const mapStateToProps = ({ settings: { theme } }) => ({ theme })
+
 
 export default connect(mapStateToProps)(Dropdown)

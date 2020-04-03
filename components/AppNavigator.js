@@ -79,13 +79,9 @@ const AppNavigator = ({ theme, setCurrentTheme, systemTheme }) => {
     </AppearanceProvider>
 }
 
-const mapStateToProps = ({ settings }) => ({
-    theme: settings.theme,
-    systemTheme: settings.systemTheme,
+const mapStateToProps = ({ settings: { theme, systemTheme } }) => ({
+    theme,
+    systemTheme,
 })
 
-const mapDispatchToProps = dispatch => ({
-    setCurrentTheme: theme => dispatch(setCurrentTheme(theme))
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(AppNavigator)
+export default connect(mapStateToProps, { setCurrentTheme })(AppNavigator)

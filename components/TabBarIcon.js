@@ -19,8 +19,6 @@ const TabBarIcon = ({ theme, focused, name }) => {
     />
 }
 
-const mapStateToProps = ({ settings }) => ({
-    theme: settings.theme,
-})
+const mapStateToProps = ({ settings: { theme } }) => ({ theme })
 
 export default connect(mapStateToProps)(TabBarIcon)

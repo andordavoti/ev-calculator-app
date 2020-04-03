@@ -200,13 +200,13 @@ const styles = StyleSheet.create({
     },
 })
 
-const mapStateToProps = ({ settings }) => ({
-    theme: settings.theme,
-    systemTheme: settings.systemTheme,
-    hapticsEnabled: settings.hapticsEnabled,
-    units: settings.units,
-    appMode: settings.appMode,
-    driveSystem: settings.driveSystem
+const mapStateToProps = ({ settings: { theme, systemTheme, hapticsEnabled, units, appMode, driveSystem } }) => ({
+    theme,
+    systemTheme,
+    hapticsEnabled,
+    units,
+    appMode,
+    driveSystem
 })
 
 export default connect(mapStateToProps, { setUnits, setAppMode, setDriveSystem, useSystemTheme, setCurrentTheme, useHaptics })(SettingsScreen)
