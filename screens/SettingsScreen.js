@@ -23,9 +23,9 @@ class SettingsScreen extends React.Component {
 
 
     onValueChange = (type, value) => {
-        if (Platform.OS === 'ios') Haptics.selectionAsync()
+        const { setUnits, setAppMode, setDriveSystem, useSystemTheme, setCurrentTheme, hapticsEnabled } = this.props
 
-        const { setUnits, setAppMode, setDriveSystem, useSystemTheme, setCurrentTheme } = this.props
+        if (Platform.OS === 'ios' && hapticsEnabled) Haptics.selectionAsync()
 
         switch (type) {
             case 'setAppMode':

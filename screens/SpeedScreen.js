@@ -23,7 +23,7 @@ class SpeedScreen extends React.Component {
 
     calculate = () => {
         Keyboard.dismiss()
-        const { units, driveSystem } = this.props
+        const { units, driveSystem, hapticsEnabled } = this.props
         const { motorPulleyTeeth, wheelPulleyTeeth, motorKVRating, wheelSize, cellsInSeries, cellVoltage } = this.state
 
         const mpt = parseFloat(motorPulleyTeeth),
@@ -42,20 +42,20 @@ class SpeedScreen extends React.Component {
 
         if (units === 'metric') {
             if (!isNaN(resultKph)) {
-                if (Platform.OS === 'ios') Haptics.notificationAsync('success')
+                if (Platform.OS === 'ios' && hapticsEnabled) Haptics.notificationAsync('success')
                 this.setState({ result: 'Estimated top speed: ' + resultKph.toFixed(2) + ' km/h' })
             } else {
-                if (Platform.OS === 'ios') Haptics.notificationAsync('error')
+                if (Platform.OS === 'ios' && hapticsEnabled) Haptics.notificationAsync('error')
                 this.setState({ result: 'Please fill out all fields' })
             }
         }
 
         else {
             if (!isNaN(resultMph)) {
-                if (Platform.OS === 'ios') Haptics.notificationAsync('success')
+                if (Platform.OS === 'ios' && hapticsEnabled) Haptics.notificationAsync('success')
                 this.setState({ result: 'Estimated top speed: ' + resultMph.toFixed(2) + ' mi/h' })
             } else {
-                if (Platform.OS === 'ios') Haptics.notificationAsync('error')
+                if (Platform.OS === 'ios' && hapticsEnabled) Haptics.notificationAsync('error')
                 this.setState({ result: 'Please fill out all fields' })
             }
         }

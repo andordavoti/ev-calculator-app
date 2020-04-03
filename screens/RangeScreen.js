@@ -22,7 +22,7 @@ class RangeScreen extends React.Component {
 
     calculate = () => {
         Keyboard.dismiss()
-        const { units } = this.props
+        const { units, hapticsEnabled } = this.props
         const { cellCapacity, cellVoltage, whPerMile, cellsInSeries, cellsInParallell } = this.state
 
         const cc = parseFloat(cellCapacity),
@@ -36,19 +36,19 @@ class RangeScreen extends React.Component {
 
         if (units === 'metric') {
             if (!isNaN(resultKm)) {
-                if (Platform.OS === 'ios') Haptics.notificationAsync('success')
+                if (Platform.OS === 'ios' && hapticsEnabled) Haptics.notificationAsync('success')
                 this.setState({ result: 'Estimated range: ' + resultKm.toFixed(2) + ' km' })
             } else {
-                if (Platform.OS === 'ios') Haptics.notificationAsync('error')
+                if (Platform.OS === 'ios' && hapticsEnabled) Haptics.notificationAsync('error')
                 this.setState({ result: 'Please fill out all fields' })
             }
         }
         else {
             if (!isNaN(resultMiles)) {
-                if (Platform.OS === 'ios') Haptics.notificationAsync('success')
+                if (Platform.OS === 'ios' && hapticsEnabled) Haptics.notificationAsync('success')
                 this.setState({ result: 'Estimated range: ' + resultMiles.toFixed(2) + ' miles' })
             } else {
-                if (Platform.OS === 'ios') Haptics.notificationAsync('error')
+                if (Platform.OS === 'ios' && hapticsEnabled) Haptics.notificationAsync('error')
                 this.setState({ result: 'Please fill out all fields' })
             }
         }
