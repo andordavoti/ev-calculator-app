@@ -3,7 +3,6 @@
     "name": "EV Calculator",
     "slug": "ev-calculator",
     "privacy": "public",
-    "sdkVersion": "36.0.0",
     "userInterfaceStyle": "automatic",
     "platforms": [
       "ios",
