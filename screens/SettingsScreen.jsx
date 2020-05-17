@@ -1,155 +1,204 @@
-import React from 'react'
-import { View, Text, StyleSheet, Platform } from 'react-native'
-import * as Haptics from 'expo-haptics'
-import Constants from 'expo-constants'
-import { connect } from 'react-redux'
+import React from 'react';
+import { View, Text, StyleSheet, Platform } from 'react-native';
+import * as Haptics from 'expo-haptics';
+import Constants from 'expo-constants';
+import { connect } from 'react-redux';
 import { Switch } from 'react-native-paper';
 
-import { setUnits, setAppMode, setDriveSystem, useSystemTheme, setCurrentTheme, useHaptics } from '../redux/settings/settings.action'
+import {
+    setUnits,
+    setAppMode,
+    setDriveSystem,
+    useSystemTheme,
+    setCurrentTheme,
+    useHaptics,
+} from '../redux/settings/settings.action';
 
-import Dropdown from '../components/Dropdown'
+import Dropdown from '../components/Dropdown';
 
 class SettingsScreen extends React.Component {
-
-    state = { selectedTheme: 'system' }
+    state = { selectedTheme: 'system' };
 
     componentDidMount() {
-        const { systemTheme, theme } = this.props
+        const { systemTheme, theme } = this.props;
 
-        if (systemTheme) this.setState({ selectedTheme: 'system' })
-        else this.setState({ selectedTheme: theme })
-
+        if (systemTheme) this.setState({ selectedTheme: 'system' });
+        else this.setState({ selectedTheme: theme });
     }
 
     onValueChange = (type, value) => {
-        const { setUnits, setAppMode, setDriveSystem, useSystemTheme, setCurrentTheme, hapticsEnabled } = this.props
+        const { setUnits, setAppMode, setDriveSystem, useSystemTheme, setCurrentTheme, hapticsEnabled } = this.props;
 
-        if (Platform.OS === 'ios' && hapticsEnabled) Haptics.selectionAsync()
+        if (Platform.OS === 'ios' && hapticsEnabled) Haptics.selectionAsync();
 
         switch (type) {
             case 'setAppMode':
-                setAppMode(value)
-                break
+                setAppMode(value);
+                break;
             case 'setDriveSystem':
-                setDriveSystem(value)
-                break
+                setDriveSystem(value);
+                break;
             case 'setUnits':
-                setUnits(value)
-                break
+                setUnits(value);
+                break;
             case 'theme':
                 if (value === 'system') {
-                    useSystemTheme(true)
-                    this.setState({ selectedTheme: 'system' })
+                    useSystemTheme(true);
+                    this.setState({ selectedTheme: 'system' });
                 }
                 if (value === 'light' || value === 'dark') {
-                    this.setState({ selectedTheme: value })
-                    setCurrentTheme(value)
-                    useSystemTheme(false)
+                    this.setState({ selectedTheme: value });
+                    setCurrentTheme(value);
+                    useSystemTheme(false);
                 }
-                break
+                break;
             default:
-                break
+                break;
         }
-    }
+    };
 
     render() {
-        const { theme, appMode, driveSystem, units, hapticsEnabled, useHaptics } = this.props
-        return <View style={theme === 'dark' ? styles.containerDark : styles.containerLight}>
-            <View style={styles.container}>
-                <Text style={theme === 'dark' ? styles.textDark : styles.textLight}>Select App Mode:</Text>
-                <Dropdown
-                    value={appMode}
-                    onValueChange={this.onValueChange}
-                    type='setAppMode'
-                    placeholder={{ label: 'Simple or Advanced Mode', value: null, color: '#9EA0A4' }}
-                    items={[
-                        {
-                            label: 'Simple Mode',
-                            value: 'simple',
-                        },
-                        {
-                            label: 'Advanced Mode',
-                            value: 'advanced',
-                        },
-                    ]}
-                />
+        const { theme, appMode, driveSystem, units, hapticsEnabled, useHaptics } = this.props;
+        return (
+            <View style={theme === 'dark' ? styles.containerDark : styles.containerLight}>
+                <View style={styles.container}>
+                    <Text style={theme === 'dark' ? styles.textDark : styles.textLight}>Select App Mode:</Text>
+                    <Dropdown
+                        value={appMode}
+                        onValueChange={this.onValueChange}
+                        type="setAppMode"
+                        placeholder={{
+                            label: 'Simple or Advanced Mode',
+                            value: null,
+                            color: '#9EA0A4',
+                        }}
+                        items={[
+                            {
+                                label: 'Simple Mode',
+                                value: 'simple',
+                            },
+                            {
+                                label: 'Advanced Mode',
+                                value: 'advanced',
+                            },
+                        ]}
+                    />
 
-                <Text style={theme === 'dark' ? styles.textDark : styles.textLight}>Select Drive System:</Text>
-                <Dropdown
-                    value={driveSystem}
-                    onValueChange={this.onValueChange}
-                    type='setDriveSystem'
-                    placeholder={{ label: 'Belt Drive or Hub Drive', value: null, color: '#9EA0A4' }}
-                    items={[
-                        {
-                            label: 'Belt Drive',
-                            value: 'belt',
-                        },
-                        {
-                            label: 'Hub Drive',
-                            value: 'hub',
-                        },
-                    ]}
-                />
+                    <Text style={theme === 'dark' ? styles.textDark : styles.textLight}>Select Drive System:</Text>
+                    <Dropdown
+                        value={driveSystem}
+                        onValueChange={this.onValueChange}
+                        type="setDriveSystem"
+                        placeholder={{
+                            label: 'Belt Drive or Hub Drive',
+                            value: null,
+                            color: '#9EA0A4',
+                        }}
+                        items={[
+                            {
+                                label: 'Belt Drive',
+                                value: 'belt',
+                            },
+                            {
+                                label: 'Hub Drive',
+                                value: 'hub',
+                            },
+                        ]}
+                    />
 
-                <Text style={theme === 'dark' ? styles.textDark : styles.textLight}>Select Unit of Measurement:</Text>
-                <Dropdown
-                    value={units}
-                    onValueChange={this.onValueChange}
-                    type='setUnits'
-                    placeholder={{ label: 'Select Units', value: null, color: '#9EA0A4' }}
-                    items={[
-                        {
-                            label: 'Metric',
-                            value: 'metric',
-                        },
-                        {
-                            label: 'Imperial',
-                            value: 'imperial',
-                        },
-                    ]}
-                />
+                    <Text style={theme === 'dark' ? styles.textDark : styles.textLight}>
+                        Select Unit of Measurement:
+                    </Text>
+                    <Dropdown
+                        value={units}
+                        onValueChange={this.onValueChange}
+                        type="setUnits"
+                        placeholder={{
+                            label: 'Select Units',
+                            value: null,
+                            color: '#9EA0A4',
+                        }}
+                        items={[
+                            {
+                                label: 'Metric',
+                                value: 'metric',
+                            },
+                            {
+                                label: 'Imperial',
+                                value: 'imperial',
+                            },
+                        ]}
+                    />
 
-                <Text style={theme === 'dark' ? styles.textDark : styles.textLight}>App theme:</Text>
-                <Dropdown
-                    value={this.state.selectedTheme}
-                    onValueChange={this.onValueChange}
-                    type='theme'
-                    placeholder={{ label: 'Select Theme', value: null, color: '#9EA0A4' }}
-                    items={[
-                        {
-                            label: 'System',
-                            value: 'system',
-                        },
-                        {
-                            label: 'Light',
-                            value: 'light',
-                        },
-                        {
-                            label: 'Dark',
-                            value: 'dark',
-                        }
-                    ]}
-                />
+                    <Text style={theme === 'dark' ? styles.textDark : styles.textLight}>App theme:</Text>
+                    <Dropdown
+                        value={this.state.selectedTheme}
+                        onValueChange={this.onValueChange}
+                        type="theme"
+                        placeholder={{
+                            label: 'Select Theme',
+                            value: null,
+                            color: '#9EA0A4',
+                        }}
+                        items={[
+                            {
+                                label: 'System',
+                                value: 'system',
+                            },
+                            {
+                                label: 'Light',
+                                value: 'light',
+                            },
+                            {
+                                label: 'Dark',
+                                value: 'dark',
+                            },
+                        ]}
+                    />
 
-                {
-                    Platform.OS === 'ios' ?
-                        <View>
-                            <Text style={theme === 'dark' ? styles.textDark : styles.textLight}>Haptics: </Text>
-                            <Switch
-                                style={{ alignSelf: 'center', marginBottom: 20 }}
-                                color='grey'
-                                value={hapticsEnabled}
-                                onValueChange={() => useHaptics(!hapticsEnabled)
+                    {Platform.OS === 'ios' ? (
+                        <View
+                            style={{
+                                flexDirection: 'row',
+                                marginBottom: 20,
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                            }}
+                        >
+                            <Text
+                                style={
+                                    theme === 'dark'
+                                        ? {
+                                              color: 'white',
+                                              textAlign: 'center',
+                                              fontSize: 18,
+                                              margin: 10,
+                                          }
+                                        : {
+                                              color: 'black',
+                                              textAlign: 'center',
+                                              fontSize: 18,
+                                              margin: 10,
+                                          }
                                 }
+                            >
+                                Haptics:{' '}
+                            </Text>
+                            <Switch
+                                style={{ alignSelf: 'center' }}
+                                color="grey"
+                                value={hapticsEnabled}
+                                onValueChange={() => useHaptics(!hapticsEnabled)}
                             />
                         </View>
-                        : null
-                }
+                    ) : null}
 
-                <Text style={theme === 'dark' ? styles.textVersionDark : styles.textVersionLight}>Version: {Constants.manifest.version}</Text>
+                    <Text style={theme === 'dark' ? styles.textVersionDark : styles.textVersionLight}>
+                        Version: {Constants.manifest.version}
+                    </Text>
+                </View>
             </View>
-        </View>
+        );
     }
 }
 
@@ -158,17 +207,17 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: 'row',
         alignItems: 'center',
-        backgroundColor: 'white'
+        backgroundColor: 'white',
     },
     containerDark: {
         flex: 1,
         flexDirection: 'row',
         alignItems: 'center',
-        backgroundColor: '#1c1c1c'
+        backgroundColor: '#1c1c1c',
     },
     container: {
         flex: 1,
-        alignItems: 'center'
+        alignItems: 'center',
     },
     buttonContainer: {
         paddingTop: 10,
@@ -178,27 +227,27 @@ const styles = StyleSheet.create({
         color: 'white',
         textAlign: 'center',
         fontSize: 18,
-        paddingBottom: 10
+        paddingBottom: 10,
     },
     textLight: {
         color: 'black',
         textAlign: 'center',
         fontSize: 18,
-        paddingBottom: 10
+        paddingBottom: 10,
     },
     textVersionDark: {
         color: 'white',
         textAlign: 'center',
         fontSize: 18,
-        paddingTop: 10
+        paddingTop: 10,
     },
     textVersionLight: {
         color: 'black',
         textAlign: 'center',
         fontSize: 18,
-        paddingTop: 10
+        paddingTop: 10,
     },
-})
+});
 
 const mapStateToProps = ({ settings: { theme, systemTheme, hapticsEnabled, units, appMode, driveSystem } }) => ({
     theme,
@@ -206,7 +255,14 @@ const mapStateToProps = ({ settings: { theme, systemTheme, hapticsEnabled, units
     hapticsEnabled,
     units,
     appMode,
-    driveSystem
-})
+    driveSystem,
+});
 
-export default connect(mapStateToProps, { setUnits, setAppMode, setDriveSystem, useSystemTheme, setCurrentTheme, useHaptics })(SettingsScreen)
+export default connect(mapStateToProps, {
+    setUnits,
+    setAppMode,
+    setDriveSystem,
+    useSystemTheme,
+    setCurrentTheme,
+    useHaptics,
+})(SettingsScreen);
