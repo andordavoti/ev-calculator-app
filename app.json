@@ -1,42 +1,36 @@
 {
-  "expo": {
-    "name": "EV Calculator",
-    "slug": "ev-calculator",
-    "privacy": "public",
-    "userInterfaceStyle": "automatic",
-    "platforms": [
-      "ios",
-      "android",
-      "web"
-    ],
-    "version": "1.5.0",
-    "orientation": "portrait",
-    "icon": "./assets/icon.png",
-    "splash": {
-      "image": "./assets/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
-    },
-    "updates": {
-      "fallbackToCacheTimeout": 0,
-      "enabled": false
-    },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
-    "ios": {
-      "bundleIdentifier": "ev.calculator.mobileapp",
-      "buildNumber": "2020040301",
-      "supportsTablet": false,
-      "isTabletOnly": false,
-      "config": {
-        "usesNonExemptEncryption": false
-      }
-    },
-    "android": {
-      "package": "ev.calculator.mobileapp",
-      "versionCode": 2020040301,
-      "permissions": []
+    "expo": {
+        "name": "EV Calculator",
+        "slug": "ev-calculator",
+        "privacy": "public",
+        "userInterfaceStyle": "automatic",
+        "platforms": ["ios", "android", "web"],
+        "version": "1.5.1",
+        "orientation": "portrait",
+        "icon": "./assets/icon.png",
+        "splash": {
+            "image": "./assets/splash.png",
+            "resizeMode": "contain",
+            "backgroundColor": "#ffffff"
+        },
+        "updates": {
+            "fallbackToCacheTimeout": 0,
+            "enabled": false
+        },
+        "assetBundlePatterns": ["**/*"],
+        "ios": {
+            "bundleIdentifier": "ev.calculator.mobileapp",
+            "buildNumber": "2020051701",
+            "supportsTablet": false,
+            "isTabletOnly": false,
+            "config": {
+                "usesNonExemptEncryption": false
+            }
+        },
+        "android": {
+            "package": "ev.calculator.mobileapp",
+            "versionCode": 2020051701,
+            "permissions": []
+        }
     }
-  }
 }
