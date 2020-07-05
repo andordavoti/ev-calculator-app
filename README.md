@@ -1,5 +1,7 @@
 # EV Calculator iOS and android app
 
+<img src="assets/icon.png" width="250" >
+
 This app is for calculating the estimated top speed and range of your electric vehicle. Instead of you trying to find the right formulas and doing the calculations, this app does it for you.
 
 The app can be used for the following vehicles: E-boards, e-bikes, e-scooters and e-gokarts.
